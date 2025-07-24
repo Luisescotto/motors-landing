@@ -23,18 +23,24 @@ export default function FinancingForm({ price }) {
     <form className='py-6 px-4 bg-dark-card rounded-md'>
       <h2 className='text-2xl'>Calcular financiamiento</h2>
       <div className='flex flex-col'>
-        <label className='py-2'>Monto inicial(RD$):</label>
-          <input type="number" className='border-2 border-slate-200 rounded-md px-2 py-1 w-full bg-slate-600/40' value={down} onChange={e => setDown(e.target.value)} />
+        <label className='py-2'>Monto inicial(RD$):
+          <input type="number" name='inicial' className='border-2 border-slate-200 rounded-md px-2 py-1 w-full bg-slate-600/40' value={down} onChange={e => setDown(e.target.value)} />
+        </label>
+          
         
       </div>
       <div className='flex flex-col'>
-        <label className='py-2'>Tasa anual (%):</label>
-          <input type="number" className='border-2 border-slate-200 rounded-md px-2 py-1 w-full bg-slate-600/40' value={rate} onChange={e => setRate(e.target.value)} />
+        <label className='py-2'>Tasa anual (%):
+          <input type="number" name='tasa' className='border-2 border-slate-200 rounded-md px-2 py-1 w-full bg-slate-600/40' value={rate} onChange={e => setRate(e.target.value)} />
+        </label>
+          
         
       </div>
       <div className='flex flex-col '>
-        <label className='py-2'>Plazo (meses): </label>
-          <input type="number" className='border-2 border-slate-200 rounded-md px-2 py-1 w-full bg-slate-600/40' value={months} onChange={e => setMonths(e.target.value)} />
+        <label className='py-2' >Plazo (meses): 
+          <input type="number" id='plazo' name='plazo' className='border-2 border-slate-200 rounded-md px-2 py-1 w-full bg-slate-600/40' value={months} onChange={e => setMonths(e.target.value)} />
+        </label>
+          
         
       </div>
       <p className='text-xl pt-6'>Cuota mensual aproximada: ${cuotaMensual()}</p>
