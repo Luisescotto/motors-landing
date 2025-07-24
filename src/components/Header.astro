@@ -1,12 +1,19 @@
+---
+import { Image } from "astro:assets";
+import logo from "../assets/images/logo.png";
+---
+
 <nav class="bg-transparent text-slate-200 absolute w-full top-0 z-50">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
       <a href="/">
         <div class="flex items-center">
-          <img
+          <Image
             class="h-18 w-auto mr-2"
-            src="/src/assets/images/logo.png"
+            width="512"
+            height="512"
+            src={logo}
             alt="Logo tienda de motos"
           />
         </div>

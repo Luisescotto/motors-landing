@@ -62,7 +62,7 @@ const formattedPrice = !isNaN(numericPrice)
           >
             <img
               id="mainImage"
-              src={`/src/assets/images/${imagen}`}
+              src={`/images/${imagen}`}
               alt={`Vista principal de la motocicleta ${title}`}
               class="w-96 h-96 object-contain transition-transform duration-300 ease-in-out hover:scale-105"
             />
@@ -73,10 +73,10 @@ const formattedPrice = !isNaN(numericPrice)
               galeria.map((img, i) => (
                 <div class="bg-slate-600/40 rounded-md overflow-hidden">
                   <img
-                    src={`/src/assets/images/${img}`}
+                    src={`/images/${img}`}
                     alt={`Galería de ${title} - imagen ${i}`}
                     class="thumbnail cursor-pointer w-80 h-25 object-contain rounded-md border-2 border-transparent hover:border-red-500 transition-all duration-200 py-2"
-                    data-image-src={`/src/assets/images/${img}`}
+                    data-image-src={`/images/${img}`}
                   />
                 </div>
               ))

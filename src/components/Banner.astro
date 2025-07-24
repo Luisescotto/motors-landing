@@ -1,12 +1,16 @@
 ---
-
+import { Image } from "astro:assets";
+import banner from "../assets/images/banner.png";
+import { Icon } from "astro-icon/components";
 ---
 
 <!-- src/components/BannerVideo.astro -->
 <section class="relative w-full h-[60vh] md:h-[75vh] bg-dark overflow-hidden">
   <!-- Imagen de fondo -->
-  <img
-    src="/src/assets/images/banner.png"
+  <Image
+    src={banner}
+    width="1920"
+    height="1080"
     alt="Banner promocional"
     class="absolute inset-0 w-full h-full object-cover opacity-80"
   />
@@ -18,9 +22,9 @@
   >
     <button
       id="play-button"
-      class="bg-slate-200/60 hover:bg-slate-200 text-red-600 font-bold rounded-full p-8 shadow-xl transition-transform transform hover:scale-110"
+      class="bg-slate-200/60 hover:bg-slate-200 text-red-600 font-bold rounded-full p-4 shadow-xl transition-transform transform hover:scale-110"
     >
-      <img src="/src/assets/images/play-icon.svg" class="size-12" alt="" />
+      <Icon name="play" size="80" class="" />
     </button>
   </div>
 

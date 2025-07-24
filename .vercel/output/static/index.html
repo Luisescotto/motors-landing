@@ -1,0 +1,138 @@
+<!DOCTYPE html><html lang="es" data-astro-cid-sckkx6r4> <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width"><link rel="icon" type="image/svg+xml" href="/favicon.svg"><meta name="generator" content="Astro v5.11.0"><title>Astro Basics</title><link rel="stylesheet" href="/_astro/financiamiento.CfgnUUBG.css">
+<style>.slide[data-astro-cid-bbe6dxrz]{transition:all .7s ease-in-out}.slide[data-astro-cid-bbe6dxrz].active{opacity:1;transform:translate(0)}.slide[data-astro-cid-bbe6dxrz]:not(.active){opacity:0;transform:translate(100%);pointer-events:none}html,body{margin:0;width:100%;height:100%;scroll-behavior:smooth}
+</style></head> <body data-astro-cid-sckkx6r4> <nav class="bg-transparent text-slate-200 absolute w-full top-0 z-50"> <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8"> <div class="flex items-center justify-between h-16"> <!-- Logo --> <a href="/"> <div class="flex items-center"> <img src="/_astro/logo.CHuWoIew_1kca5e.webp" alt="Logo tienda de motos" loading="lazy" decoding="async" fetchpriority="auto" width="512" height="512" class="h-18 w-auto mr-2"> </div> </a> <!-- Menú de navegación (desktop) --> <div class="hidden md:flex space-x-8"> <a href="/" class="hover:text-red-500 transition-colors duration-200">Inicio</a> <a href="/#financiamiento" class="hover:text-red-500 transition-colors duration-200">Financiamiento</a> <a href="/#catalogo" class="hover:text-red-500 transition-colors duration-200">Catálogo</a> <a href="/#contacto" class="hover:text-red-500 transition-colors duration-200">Contacto</a> </div> <!-- Botón hamburguesa (móvil) --> <button id="open-menu" type="button" class="text-slate-200 hover:text-red-500 focus:outline-none focus:text-slate-200 md:hidden"> <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"> <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path> </svg> </button> </div> </div> <!-- Overlay oscuro --> <div id="overlay" class="fixed inset-0 bg-dark/40 bg-opacity-40 backdrop-blur-sm z-40 hidden"></div> <!-- Menú móvil --> <div id="mobile-menu" class="fixed top-0 right-0 h-full w-64 bg-slate-200 z-50 transform translate-x-full transition-transform duration-300 md:hidden shadow-lg"> <div class="p-4 flex flex-col"> <button id="close-menu" class="self-end text-dark hover:text-red-500 text-xl">
+✕
+</button> <a href="/" class="py-2 text-dark hover:text-red-500">Inicio</a> <a href="/#financiamiento" class="py-2 text-dark hover:text-red-500">Financiamiento</a> <a href="/#catalogo" class="py-2 text-dark hover:text-red-500">catálogo</a> <a href="/#contacto" class="py-2 text-dark hover:text-red-500">Contacto</a> </div> </div> </nav> <script>
+  const openBtn = document.getElementById("open-menu");
+  const closeBtn = document.getElementById("close-menu");
+  const menu = document.getElementById("mobile-menu");
+  const overlay = document.getElementById("overlay");
+
+  openBtn.addEventListener("click", () => {
+    menu.classList.remove("translate-x-full");
+    overlay.classList.remove("hidden");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    menu.classList.add("translate-x-full");
+    overlay.classList.add("hidden");
+  });
+
+  overlay.addEventListener("click", () => {
+    menu.classList.add("translate-x-full");
+    overlay.classList.add("hidden");
+  });
+</script> <section class="bg-black h-96 lg:h-full flex justify-center" data-astro-cid-bbe6dxrz> <div class="relative w-full h-full group" data-astro-cid-bbe6dxrz> <!-- Main slider --> <div class="relative h-full overflow-hidden" data-astro-cid-bbe6dxrz> <!-- Slide 1 --> <div class="slide active absolute w-full h-full" data-astro-cid-bbe6dxrz> <img src="/images/banner-1.jpg" alt="Forest Path" class="w-full h-96 lg:h-full object-cover" data-astro-cid-bbe6dxrz> <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8" data-astro-cid-bbe6dxrz> <!-- <h2 class="text-white text-3xl font-bold mb-2">Forest Path</h2>
+          <p class="text-gray-200">A serene path through the autumn forest</p> --> </div> </div> <!-- Slide 2 --> <div class="slide absolute w-full h-full" data-astro-cid-bbe6dxrz> <img src="/images/banner-2.jpg" alt="Mountain Lake" class="w-full h-96 lg:h-full object-cover" data-astro-cid-bbe6dxrz> <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8" data-astro-cid-bbe6dxrz> <!-- <h2 class="text-white text-3xl font-bold mb-2">Mountain Lake</h2>
+          <p class="text-gray-200">
+            Crystal clear mountain lake with perfect reflections
+          </p> --> </div> </div> <!-- Slide 3 --> <div class="slide absolute w-full h-full" data-astro-cid-bbe6dxrz> <img src="/images/banner-3.jpg" alt="Sunset Valley" class="w-full h-96 lg:h-full object-cover" data-astro-cid-bbe6dxrz> <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8" data-astro-cid-bbe6dxrz> <!-- <h2 class="text-white text-3xl font-bold mb-2">Sunset Valley</h2>
+          <p class="text-gray-200">Golden hour in the mountain valley</p> --> </div> </div> <!-- Slide 4 --> <div class="slide absolute w-full h-full" data-astro-cid-bbe6dxrz> <img src="/images/banner-4.jpg" alt="Forest Path" class="w-full h-96 lg:h-full object-cover" data-astro-cid-bbe6dxrz> <div class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8" data-astro-cid-bbe6dxrz> <!-- <h2 class="text-white text-3xl font-bold mb-2">Foggy Mountains</h2>
+          <p class="text-gray-200">Misty morning in the mountains</p> --> </div> </div> </div> <!-- Navigation Arrows --> <button onclick="previousSlide()" class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 text-white w-11 h-11 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/50 p-2 cursor-pointer" data-astro-cid-bbe6dxrz> <img src="/images/left.svg" alt="" data-astro-cid-bbe6dxrz> </button> <button onclick="nextSlide()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 text-white w-11 h-11 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/50 p-2 cursor-pointer" data-astro-cid-bbe6dxrz> <img src="/images/right.svg" alt="" data-astro-cid-bbe6dxrz> </button> <!-- Dots Navigation --> <div class="absolute bottom-4 left-1/2 transform -translate-y-1/2 flex space-x-2" data-astro-cid-bbe6dxrz> <button onclick="goToSlide(0)" class="w-4 h-2 rounded-full bg-white transition-all duration-300 cursor-pointer" data-astro-cid-bbe6dxrz></button> <button onclick="goToSlide(1)" class="w-4 h-2 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300 cursor-pointer" data-astro-cid-bbe6dxrz></button> <button onclick="goToSlide(2)" class="w-4 h-2 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300 cursor-pointer" data-astro-cid-bbe6dxrz></button> <button onclick="goToSlide(3)" class="w-4 h-2 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300 cursor-pointer" data-astro-cid-bbe6dxrz></button> </div> </div> <script>
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".absolute.bottom-4 button");
+    let currentSlide = 0;
+    let slideInterval;
+
+    resetinterval();
+
+    function updateSlides() {
+      slides.forEach((slide, index) => {
+        if (index == currentSlide) {
+          slide.classList.add("active");
+        } else {
+          slide.classList.remove("active");
+        }
+      });
+
+      dots.forEach((dot, index) => {
+        if (index == currentSlide) {
+          dot.classList.add("w-4", "bg-white");
+          dot.classList.remove("w-2", "bg-white/50");
+        } else {
+          dot.classList.remove("w-4", "bg-white");
+          dot.classList.add("w-2", "bg-white/50");
+        }
+      });
+    }
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      updateSlides();
+      resetinterval();
+    }
+    function previousSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      updateSlides();
+      resetinterval();
+    }
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlides();
+      resetinterval();
+    }
+    function resetinterval() {
+      clearInterval(slideInterval);
+      startInterval();
+    }
+    function startInterval() {
+      slideInterval = setInterval(nextSlide, 5000);
+    }
+  </script> </section> <section id="financiamiento" class="flex h-auto w-full justify-between items-center bg-slate-200 py-16 px-4 md:px-10 lg:px-24"> <div class="w-full mx-auto grid lg:grid-cols-3 gap-6 items-center content-center"> <!-- Imagen ilustrativa --> <div class="relative hidden lg:block"> <img src="/images/tauro-3.png" alt="Persona feliz con su moto nueva" class="max-w-[45%] md:max-w-[35%] lg:max-w-[65%] scale-250 absolute right-80 -top-30"> </div> <!-- Texto --> <div class="w-full flex flex-col justify-center items-start text-left"> <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">
+¡Llévate tu motor hoy mismo!
+</h2> <p class="text-gray-700 text-lg leading-relaxed mb-6">
+Con nuestro programa de financiamiento flexible, puedes adquirir el
+        motor de tus sueños sin complicaciones. Te ofrecemos planes
+        personalizados que se ajustan a tu presupuesto, con aprobación rápida y
+        cuotas cómodas.
+</p> <ul class="list-disc pl-5 text-lg text-gray-600 font-medium space-y-2"> <li>Cuotas mensuales accesibles</li> <li>Aprobación en menos de 24 horas</li> <li>Sin inicial en modelos seleccionados</li> </ul> <a href="#contacto" class="inline-block mt-6 px-6 py-3 bg-red-600 hover:bg-red-700 text-slate-200 font-semibold rounded-xl transition duration-300 w-fit">
+Solicitar información
+</a> </div> <!-- <div class="w-full h-full gap-4 flex px-6 justify-center"></div> --> <section class="rounded-xl h-full w-full"> <!-- <div class="max-w-6xl mx-auto text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold text-red-600">
+          Deseas tu moto por cuotas?
+        </h2>
+        <p class="mt-2 text-gray-600">Tenemos el mejor financiamiento</p>
+      </div> --> <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full h-full mx-auto"> <div class="bg-gray-100 rounded-xl shadow-md p-4 flex flex-col items-start text-left justify-start"> <img src="/images/call.svg" alt="" class="w-12 h-12 object-contain mb-4 bg-gray-300 p-3 rounded-full"> <h3 class="text-[16px] font-bold text-dark">1. Contáctanos</h3> <p class="text-gray-600 mt-2 text-[14px] font-semibold">
+Dale Click a nuestro whatsaap o llámanos 809-555-5555
+</p> </div> <div class="bg-gray-100 rounded-xl shadow-md p-4 flex flex-col items-start text-left justify-start"> <img src="/images/motorcycle.svg" alt="" class="w-12 h-12 object-contain mb-4 bg-gray-300 p-2 rounded-full"> <h3 class="text-[16px] font-bold text-gray-800">2. Elige Tu Motor</h3> <p class="text-gray-600 mt-2 text-[14px] font-semibold">
+Que motor se adapta a tu gusto y bolsillo?
+</p> </div> <div class="bg-gray-100 rounded-xl shadow-md p-4 flex flex-col items-start text-left justify-start"> <img src="/images/fast.svg" alt="" class="w-12 h-12 object-contain mb-4 bg-gray-300 p-3 rounded-full"> <h3 class="text-[16px] font-bold text-gray-800">
+3. Aplica Fácil y Rápido
+</h3> <p class="text-gray-600 mt-2 text-[14px] font-semibold">
+Sólo contesta unas preguntas para precalificar, y envía tus
+            requisitos.
+</p> </div> <div class="bg-gray-100 rounded-xl shadow-md p-4 flex flex-col items-start text-left justify-start"> <img src="/images/plan.svg" alt="" class="w-12 h-12 object-contain mb-4 bg-gray-300 p-3 rounded-full"> <h3 class="text-[16px] font-bold text-gray-800">4. Elige tu plan</h3> <p class="text-gray-600 mt-2 text-[14px] font-semibold">
+Escoge la cuota que te queda mejor y: Llévate tu motor!
+</p> </div> </div> </section> </div> </section> <!-- src/components/CatalogoMotos.astro --><section id="catalogo" class="bg-dark py-8 px-6"> <div class="max-w-7xl mx-auto"> <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-200 mb-12">
+Catálogo de Motores
+</h2> <!--product cards --> <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"> <li class="group cursor-pointer h-auto"> <a href="/producto/bajaj-boxer-ct100"> <div class="flex flex-col items-center rounded-xl h-full"> <div class="flex flex-col justify-center items-center text-center w-full px-8 bg-white rounded-t-xl border-b border-gray-200 flex-grow"> <h3 class="pt-2 text-lg font-semibold text-gray-800 text-center leading-tight"> Bajaj Boxer CT100 </h3> <span class="text-gray-800 font-bold text-lg mb-2">112000</span> </div> <div class="bg-white w-full flex justify-center px-4"> <img src="/images/moto2.png" alt="Bajaj Boxer CT100" class="w-60 h-40 object-contain mb-4 group-hover:scale-130 transition-transform duration-500 z-20"> </div> <div class="flex w-full justify-center text-center bg-white py-4 rounded-b-xl border-t border-gray-200"> <p class="w-full text-sm text-gray-500 border-r border-gray-300 py-2">
+Marca: <span class="font-medium text-gray-900">Bajaj</span> </p> <p class="w-full text-sm text-gray-500 py-2">
+Modelo: <span class="font-medium text-gray-900">Boxer CT100</span> </p> </div> </div> </a> </li><li class="group cursor-pointer h-auto"> <a href="/producto/akt-ndk125"> <div class="flex flex-col items-center rounded-xl h-full"> <div class="flex flex-col justify-center items-center text-center w-full px-8 bg-white rounded-t-xl border-b border-gray-200 flex-grow"> <h3 class="pt-2 text-lg font-semibold text-gray-800 text-center leading-tight"> AKT NKD 125 </h3> <span class="text-gray-800 font-bold text-lg mb-2">125000</span> </div> <div class="bg-white w-full flex justify-center px-4"> <img src="/images/moto2.png" alt="AKT NKD 125" class="w-60 h-40 object-contain mb-4 group-hover:scale-130 transition-transform duration-500 z-20"> </div> <div class="flex w-full justify-center text-center bg-white py-4 rounded-b-xl border-t border-gray-200"> <p class="w-full text-sm text-gray-500 border-r border-gray-300 py-2">
+Marca: <span class="font-medium text-gray-900">AKT</span> </p> <p class="w-full text-sm text-gray-500 py-2">
+Modelo: <span class="font-medium text-gray-900">NKD 125</span> </p> </div> </div> </a> </li><li class="group cursor-pointer h-auto"> <a href="/producto/honda-cg150"> <div class="flex flex-col items-center rounded-xl h-full"> <div class="flex flex-col justify-center items-center text-center w-full px-8 bg-white rounded-t-xl border-b border-gray-200 flex-grow"> <h3 class="pt-2 text-lg font-semibold text-gray-800 text-center leading-tight"> Honda CG150 Titan </h3> <span class="text-gray-800 font-bold text-lg mb-2">145000</span> </div> <div class="bg-white w-full flex justify-center px-4"> <img src="/images/moto4.png" alt="Honda CG150 Titan" class="w-60 h-40 object-contain mb-4 group-hover:scale-130 transition-transform duration-500 z-20"> </div> <div class="flex w-full justify-center text-center bg-white py-4 rounded-b-xl border-t border-gray-200"> <p class="w-full text-sm text-gray-500 border-r border-gray-300 py-2">
+Marca: <span class="font-medium text-gray-900">Honda</span> </p> <p class="w-full text-sm text-gray-500 py-2">
+Modelo: <span class="font-medium text-gray-900">CG150 Titan</span> </p> </div> </div> </a> </li><li class="group cursor-pointer h-auto"> <a href="/producto/kawasaki-z300"> <div class="flex flex-col items-center rounded-xl h-full"> <div class="flex flex-col justify-center items-center text-center w-full px-8 bg-white rounded-t-xl border-b border-gray-200 flex-grow"> <h3 class="pt-2 text-lg font-semibold text-gray-800 text-center leading-tight"> Kawasaki Z300 </h3> <span class="text-gray-800 font-bold text-lg mb-2">310000</span> </div> <div class="bg-white w-full flex justify-center px-4"> <img src="/images/apache-1.png" alt="Kawasaki Z300" class="w-60 h-40 object-contain mb-4 group-hover:scale-130 transition-transform duration-500 z-20"> </div> <div class="flex w-full justify-center text-center bg-white py-4 rounded-b-xl border-t border-gray-200"> <p class="w-full text-sm text-gray-500 border-r border-gray-300 py-2">
+Marca: <span class="font-medium text-gray-900">Kawasaki</span> </p> <p class="w-full text-sm text-gray-500 py-2">
+Modelo: <span class="font-medium text-gray-900">Z300</span> </p> </div> </div> </a> </li> </ul> <div class="w-full text-center pt-12 pb-6"> <a class="px-8 py-4 text-xl font-bold bg-slate-200 rounded-xl hover:text-slate-200 hover:bg-red-600 transition-colors duration-300" href="/productos">Ver todos</a> </div> </div> </section> <!-- src/components/BannerVideo.astro --><section class="relative w-full h-[60vh] md:h-[75vh] bg-dark overflow-hidden"> <!-- Imagen de fondo --> <img src="/_astro/banner.TV22rVSO_2gHSyd.webp" alt="Banner promocional" loading="lazy" decoding="async" fetchpriority="auto" width="1920" height="1080" class="absolute inset-0 w-full h-full object-cover opacity-80"> <!-- Botón de reproducción --> <div id="play-button-container" class="absolute inset-0 flex items-center justify-center z-20"> <button id="play-button" class="bg-slate-200/60 hover:bg-slate-200 text-red-600 font-bold rounded-full p-4 shadow-xl transition-transform transform hover:scale-110"> <svg width="80" height="80" class data-icon="play">   <symbol id="ai:local:play" viewBox="0 0 24 24"><path fill="#1f262e" stroke="#1f262e" stroke-width=".5" d="M8 5.14v14l11-7z"/></symbol><use href="#ai:local:play"></use>  </svg> </button> </div> <!-- Contenedor del iframe --> <div id="video-container" class="absolute inset-0 z-30 hidden"> <iframe id="video-frame" width="100%" height="100%" src="" title="Video promocional" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen class="w-full h-full"></iframe> </div> <!-- Sombra para contraste de contenido --> <div class="absolute inset-0 bg-gradient-to-b from-dark/40 to-dark/60 z-10"></div> </section> <script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("play-button");
+    const videoContainer = document.getElementById("video-container");
+    const buttonContainer = document.getElementById("play-button-container");
+    const iframe = document.getElementById("video-frame");
+    const videoId = "9Yvqn6vWxcU"; // Reemplaza por tu video
+
+    if (button) {
+      button.addEventListener("click", () => {
+        buttonContainer.style.display = "none";
+        videoContainer.classList.remove("hidden");
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      });
+    }
+  });
+</script> <!-- <Offers /> --> <!-- src/components/Contacto.astro --><section id="contacto" class="bg-slate-200 w-full h-auto mx-auto flex flex-col md:flex-row justify-between items-center"> <!-- Formulario --> <div class="flex items-center w-full text-left justify-center bg-slate-200"> <form action="https://formsubmit.co/ventas@motozone.com" method="POST" class="space-y-6 bg-slate-200 py-6 px-6 w-full flex flex-col justify-center"> <input type="hidden" name="_captcha" value="false"> <input type="hidden" name="_next" value="https://tusitio.com/gracias"> <div> <label for="nombre" class="block mb-1 text-dark font-medium">Nombre completo</label> <input type="text" id="nombre" name="nombre" required placeholder="Tu nombre" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"> </div> <div> <label for="telefono" class="block mb-1 text-dark font-medium">Teléfono</label> <input type="tel" id="telefono" name="telefono" required placeholder="Ej: 809-000-0000" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"> </div> <div> <label for="correo" class="block mb-1 text-dark font-medium">Correo electrónico</label> <input type="email" id="correo" name="correo" placeholder="tucorreo@email.com" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"> </div> <div> <label for="mensaje" class="block mb-1 text-dark font-medium">Mensaje</label> <textarea id="mensaje" name="mensaje" rows="4" required placeholder="Escríbenos tu consulta" class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"></textarea> </div> <div class="text-right"> <button type="submit" class="bg-red-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300">
+Enviar mensaje
+</button> </div> </form> </div> <!--MAP IMAGE --> <div class="space-y-6 w-full h-auto"> <img class="w-fit object-cover" src="/images/map.jpg" alt=""> </div> </section> <!-- src/components/Footer.astro --><footer class="bg-black/90 text-gray-200 py-6 flex justify-center"> <div class="max-w-7xl w-full flex flex-col md:flex-row gap-10 justify-center text-center"> <!-- Logo y descripción --> <!-- Información de contacto --> <div class="space-y-2 grow w-full text-left px-8 pb-6"> <h2 class="text-3xl font-bold text-white">¿Necesitas ayuda?</h2> <p class="text-gray-200 text-lg">
+Nuestro equipo está listo para responder tus preguntas, ayudarte a
+        elegir tu motor ideal o brindarte información sobre financiamiento.
+</p> <div class="space-y-2 text-gray-200"> <div> <h3 class="font-semibold">Teléfono</h3> <p>+1 (809) 123-4567</p> </div> <div> <h3 class="font-semibold">Correo</h3> <p>ventas@motozone.com</p> </div> <div> <h3 class="font-semibold">Dirección</h3> <p>Calle Principal #45, Santo Domingo</p> </div> <div> <h3 class="font-semibold">Horario</h3> <p>Lunes a Sábado: 9:00 AM - 6:00 PM</p> </div> </div> </div> <!-- Enlaces rápidos --> <div class="w-fl"> <h3 class="text-lg font-semibold text-white mb-3">Enlaces</h3> <ul class="space-y-2 text-sm"> <li><a href="#catalogo" class="hover:text-red-500">Catálogo</a></li> <li><a href="#ofertas" class="hover:text-red-500">Ofertas</a></li> <li> <a href="#financiamiento" class="hover:text-red-500">Financiamiento</a> </li> <li><a href="#contacto" class="hover:text-red-500">Contacto</a></li> </ul> </div> <!-- Redes sociales --> <div class="w-full"> <h3 class="text-lg font-semibold text-white mb-3">Síguenos</h3> <ul class="space-y-2 text-sm"> <li> <a href="https://facebook.com/motozone" target="_blank" class="hover:text-red-500">Facebook</a> </li> <li> <a href="https://instagram.com/motozone" target="_blank" class="hover:text-red-500">Instagram</a> </li> <li> <a href="https://wa.me/18091234567" target="_blank" class="hover:text-red-500">WhatsApp</a> </li> </ul> </div> </div> </footer> <div class="bg-black/90 border-t border-gray-50/20 py-6 text-center text-xs text-gray-500">
+&copy; 2025 MotoZone. Todos los derechos reservados.
+</div>  </body></html>
