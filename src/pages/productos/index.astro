@@ -1,0 +1,58 @@
+---
+import Layout from "@/layouts/ProductoLayout.astro";
+import ProductCard from "@/components/productCard.astro";
+import { getCollection } from "astro:content";
+const productos = await getCollection("productos");
+---
+
+<Layout>
+  <section class="bg-dark text-slate-200">
+    <main class="max-w-6xl mx-auto px-4 py-8">
+      <h1 class="text-3xl font-bold my-6">Motocicletas disponibles</h1>
+      <ul
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      >
+        {
+          productos.map((producto) => (
+            <ProductCard
+              title={producto.data.title}
+              slug={producto.slug}
+              precio={producto.data.precio}
+              marca={producto.data.marca}
+              modelo={producto.data.modelo}
+              imagen={producto.data.imagen}
+            />
+          ))
+        }
+      </ul>
+    </main>
+  </section>
+
+  <script is:inline>
+    const priceElements = document.querySelectorAll(".price-display");
+
+    // Itera sobre cada elemento de precio encontrado
+    priceElements.forEach((priceElement) => {
+      // Obtiene el precio en bruto del atributo 'data-price'
+      const rawPrice = priceElement.dataset.price;
+      // Convierte el precio a un número
+      const numericPrice = Number(rawPrice);
+
+      let formattedPriceText = "Precio no disponible";
+
+      // Verifica si el precio es un número válido
+      if (!isNaN(numericPrice)) {
+        // Formatea el precio a la moneda dominicana (DOP)
+        formattedPriceText = new Intl.NumberFormat("es-DO", {
+          style: "currency", // Indica que es un formato de moneda
+          currency: "DOP", // Especifica la moneda: Peso Dominicano
+          minimumFractionDigits: 2, // Asegura al menos 2 decimales
+          maximumFractionDigits: 2, // Asegura como máximo 2 decimales
+        }).format(numericPrice);
+      }
+
+      // Asigna el texto formateado al contenido del elemento
+      priceElement.textContent = formattedPriceText;
+    });
+  </script>
+</Layout>

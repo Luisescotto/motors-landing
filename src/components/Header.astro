@@ -1,0 +1,108 @@
+<nav class="bg-transparent text-slate-200 absolute w-full top-0 z-50">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16">
+      <!-- Logo -->
+      <div class="flex items-center">
+        <img
+          class="h-18 w-auto mr-2"
+          src="/src/assets/images/logo.png"
+          alt="Logo tienda de motos"
+        />
+      </div>
+
+      <!-- Menú de navegación (desktop) -->
+      <div class="hidden md:flex space-x-8">
+        <a href="/" class="hover:text-red-500 transition-colors duration-200"
+          >Inicio</a
+        >
+        <a
+          href="/#financiamiento"
+          class="hover:text-red-500 transition-colors duration-200"
+          >Financiamiento</a
+        >
+        <a
+          href="/#catalogo"
+          class="hover:text-red-500 transition-colors duration-200">Catálogo</a
+        >
+        <a
+          href="/#contacto"
+          class="hover:text-red-500 transition-colors duration-200">Contacto</a
+        >
+      </div>
+
+      <!-- Botón hamburguesa (móvil) -->
+      <button
+        id="open-menu"
+        type="button"
+        class="text-slate-200 hover:text-red-500 focus:outline-none focus:text-slate-200 md:hidden"
+      >
+        <svg
+          class="h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Overlay oscuro -->
+  <div
+    id="overlay"
+    class="fixed inset-0 bg-dark/40 bg-opacity-40 backdrop-blur-sm z-40 hidden"
+  >
+  </div>
+
+  <!-- Menú móvil -->
+  <div
+    id="mobile-menu"
+    class="fixed top-0 right-0 h-full w-64 bg-slate-200 z-50 transform translate-x-full transition-transform duration-300 md:hidden shadow-lg"
+  >
+    <div class="p-4 flex flex-col">
+      <button
+        id="close-menu"
+        class="self-end text-dark hover:text-red-500 text-xl"
+      >
+        ✕
+      </button>
+      <a href="/" class="py-2 text-dark hover:text-red-500">Inicio</a>
+      <a href="/#financiamiento" class="py-2 text-dark hover:text-red-500"
+        >Financiamiento</a
+      >
+      <a href="/#catalogo" class="py-2 text-dark hover:text-red-500">catálogo</a
+      >
+
+      <a href="/#contacto" class="py-2 text-dark hover:text-red-500">Contacto</a
+      >
+    </div>
+  </div>
+</nav>
+
+<script is:inline>
+  const openBtn = document.getElementById("open-menu");
+  const closeBtn = document.getElementById("close-menu");
+  const menu = document.getElementById("mobile-menu");
+  const overlay = document.getElementById("overlay");
+
+  openBtn.addEventListener("click", () => {
+    menu.classList.remove("translate-x-full");
+    overlay.classList.remove("hidden");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    menu.classList.add("translate-x-full");
+    overlay.classList.add("hidden");
+  });
+
+  overlay.addEventListener("click", () => {
+    menu.classList.add("translate-x-full");
+    overlay.classList.add("hidden");
+  });
+</script>

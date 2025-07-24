@@ -1,0 +1,174 @@
+---
+
+---
+
+<style>
+  .slide {
+    transition: all 0.7s ease-in-out;
+  }
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .slide:not(.active) {
+    opacity: 0;
+    transform: translateX(100%);
+    pointer-events: none;
+  }
+</style>
+
+<section class="bg-black h-96 lg:h-full flex justify-center">
+  <div class="relative w-full h-full group">
+    <!-- Main slider -->
+    <div class="relative h-full overflow-hidden">
+      <!-- Slide 1 -->
+      <div class="slide active absolute w-full h-full">
+        <img
+          src="/src/assets/images/banner-1.jpg"
+          alt="Forest Path"
+          class="w-full h-96 lg:h-full object-cover"
+        />
+        <div
+          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8"
+        >
+          <!-- <h2 class="text-white text-3xl font-bold mb-2">Forest Path</h2>
+          <p class="text-gray-200">A serene path through the autumn forest</p> -->
+        </div>
+      </div>
+
+      <!-- Slide 2 -->
+      <div class="slide absolute w-full h-full">
+        <img
+          src="/src/assets/images/banner-2.jpg"
+          alt="Mountain Lake"
+          class="w-full h-96 lg:h-full object-cover"
+        />
+        <div
+          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8"
+        >
+          <!-- <h2 class="text-white text-3xl font-bold mb-2">Mountain Lake</h2>
+          <p class="text-gray-200">
+            Crystal clear mountain lake with perfect reflections
+          </p> -->
+        </div>
+      </div>
+
+      <!-- Slide 3 -->
+      <div class="slide absolute w-full h-full">
+        <img
+          src="/src/assets/images/banner-3.jpg"
+          alt="Sunset Valley"
+          class="w-full h-96 lg:h-full object-cover"
+        />
+        <div
+          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8"
+        >
+          <!-- <h2 class="text-white text-3xl font-bold mb-2">Sunset Valley</h2>
+          <p class="text-gray-200">Golden hour in the mountain valley</p> -->
+        </div>
+      </div>
+
+      <!-- Slide 4 -->
+      <div class="slide absolute w-full h-full">
+        <img
+          src="/src/assets/images/banner-4.jpg"
+          alt="Forest Path"
+          class="w-full h-96 lg:h-full object-cover"
+        />
+        <div
+          class="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-8"
+        >
+          <!-- <h2 class="text-white text-3xl font-bold mb-2">Foggy Mountains</h2>
+          <p class="text-gray-200">Misty morning in the mountains</p> -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button
+      onclick="previousSlide()"
+      class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/30 text-white w-11 h-11 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/50 p-2 cursor-pointer"
+    >
+      <img src="/src/assets/images/left.svg" alt="" />
+    </button>
+    <button
+      onclick="nextSlide()"
+      class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/30 text-white w-11 h-11 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300 hover:bg-black/50 p-2 cursor-pointer"
+    >
+      <img src="/src/assets/images/right.svg" alt="" />
+    </button>
+
+    <!-- Dots Navigation -->
+    <div
+      class="absolute bottom-4 left-1/2 transform -translate-y-1/2 flex space-x-2"
+    >
+      <button
+        onclick="goToSlide(0)"
+        class="w-4 h-2 rounded-full bg-white transition-all duration-300 cursor-pointer"
+      ></button>
+      <button
+        onclick="goToSlide(1)"
+        class="w-4 h-2 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300 cursor-pointer"
+      ></button>
+      <button
+        onclick="goToSlide(2)"
+        class="w-4 h-2 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300 cursor-pointer"
+      ></button>
+      <button
+        onclick="goToSlide(3)"
+        class="w-4 h-2 rounded-full bg-white/50 hover:bg-white/75 transition-all duration-300 cursor-pointer"
+      ></button>
+    </div>
+  </div>
+
+  <script is:inline>
+    const slides = document.querySelectorAll(".slide");
+    const dots = document.querySelectorAll(".absolute.bottom-4 button");
+    let currentSlide = 0;
+    let slideInterval;
+
+    resetinterval();
+
+    function updateSlides() {
+      slides.forEach((slide, index) => {
+        if (index == currentSlide) {
+          slide.classList.add("active");
+        } else {
+          slide.classList.remove("active");
+        }
+      });
+
+      dots.forEach((dot, index) => {
+        if (index == currentSlide) {
+          dot.classList.add("w-4", "bg-white");
+          dot.classList.remove("w-2", "bg-white/50");
+        } else {
+          dot.classList.remove("w-4", "bg-white");
+          dot.classList.add("w-2", "bg-white/50");
+        }
+      });
+    }
+    function nextSlide() {
+      currentSlide = (currentSlide + 1) % slides.length;
+      updateSlides();
+      resetinterval();
+    }
+    function previousSlide() {
+      currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+      updateSlides();
+      resetinterval();
+    }
+    function goToSlide(index) {
+      currentSlide = index;
+      updateSlides();
+      resetinterval();
+    }
+    function resetinterval() {
+      clearInterval(slideInterval);
+      startInterval();
+    }
+    function startInterval() {
+      slideInterval = setInterval(nextSlide, 5000);
+    }
+  </script>
+</section>

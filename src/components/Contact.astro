@@ -1,0 +1,89 @@
+---
+
+---
+
+<!-- src/components/Contacto.astro -->
+<section
+  id="contacto"
+  class="bg-slate-200 w-full h-auto mx-auto flex flex-col md:flex-row justify-between items-center"
+>
+  <!-- Formulario -->
+  <div class="flex items-center w-full text-left justify-center bg-slate-200">
+    <form
+      action="https://formsubmit.co/ventas@motozone.com"
+      method="POST"
+      class="space-y-6 bg-slate-200 py-6 px-6 w-full flex flex-col justify-center"
+    >
+      <input type="hidden" name="_captcha" value="false" />
+      <input type="hidden" name="_next" value="https://tusitio.com/gracias" />
+
+      <div>
+        <label for="nombre" class="block mb-1 text-dark font-medium"
+          >Nombre completo</label
+        >
+        <input
+          type="text"
+          id="nombre"
+          name="nombre"
+          required
+          placeholder="Tu nombre"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+        />
+      </div>
+
+      <div>
+        <label for="telefono" class="block mb-1 text-dark font-medium"
+          >Teléfono</label
+        >
+        <input
+          type="tel"
+          id="telefono"
+          name="telefono"
+          required
+          placeholder="Ej: 809-000-0000"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+        />
+      </div>
+
+      <div>
+        <label for="correo" class="block mb-1 text-dark font-medium"
+          >Correo electrónico</label
+        >
+        <input
+          type="email"
+          id="correo"
+          name="correo"
+          placeholder="tucorreo@email.com"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500"
+        />
+      </div>
+
+      <div>
+        <label for="mensaje" class="block mb-1 text-dark font-medium"
+          >Mensaje</label
+        >
+        <textarea
+          id="mensaje"
+          name="mensaje"
+          rows="4"
+          required
+          placeholder="Escríbenos tu consulta"
+          class="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-red-500 resize-none"
+        ></textarea>
+      </div>
+
+      <div class="text-right">
+        <button
+          type="submit"
+          class="bg-red-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-red-700 transition duration-300"
+        >
+          Enviar mensaje
+        </button>
+      </div>
+    </form>
+  </div>
+  <!--MAP IMAGE -->
+  <div class="space-y-6 w-full h-auto">
+    <img class="w-fit object-cover" src="/src/assets/images/map.jpg" alt="" />
+  </div>
+</section>

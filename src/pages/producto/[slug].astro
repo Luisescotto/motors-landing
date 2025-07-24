@@ -1,0 +1,244 @@
+---
+// src/pages/productos/[slug].astro
+import { getCollection } from "astro:content";
+import ProductoLayout from "@/layouts/ProductoLayout.astro";
+import { Icon } from "astro-icon/components";
+
+// import { Icon } from "astro-icon/components"; // Asegúrate de tener astro-icon instalado
+
+// --- Data Fetching ---
+// Genera una página estática para cada producto en la colección "productos".
+export async function getStaticPaths() {
+  const productos = await getCollection("productos");
+  return productos.map((producto) => ({
+    params: { slug: producto.slug },
+    props: { producto },
+  }));
+}
+
+// --- Props y Desestructuración de Datos ---
+const { producto } = Astro.props;
+const { data } = producto;
+// Extraemos las propiedades del producto, incluyendo un array para la galería.
+const {
+  title,
+  precio,
+  marca,
+  modelo,
+  imagen,
+  descripcion,
+  especificaciones = [],
+  galeria = [],
+} = data;
+
+const { slug } = Astro.params;
+
+// Formateador de moneda para el precio
+// --- Lógica de Formateo de Precio ---
+// Se convierte el precio a tipo numérico para evitar errores.
+const numericPrice = Number(precio);
+
+// Se formatea el precio solo si es un número válido.
+// De lo contrario, se muestra un mensaje predeterminado.
+const formattedPrice = !isNaN(numericPrice)
+  ? new Intl.NumberFormat("es-DO", {
+      style: "currency",
+      currency: "DOP",
+    }).format(numericPrice)
+  : "Precio no disponible";
+---
+
+<ProductoLayout>
+  <section class="text-gray-800 py-6 bg-neutral-950">
+    <!-- Header (Ejemplo de un encabezado simple) -->
+
+    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-7xl">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
+        <!-- Columna de la Galería de Imágenes -->
+        <div class="flex flex-col gap-4">
+          <!-- Imagen Principal -->
+          <div
+            class="aspect-w-16 aspect-h-10 w-full overflow-hidden rounded-lg shadow-lg bg-slate-600/40 flex justify-center items-center"
+          >
+            <img
+              id="mainImage"
+              src={`/src/assets/images/${imagen}`}
+              alt={`Vista principal de la motocicleta ${title}`}
+              class="w-96 h-96 object-contain transition-transform duration-300 ease-in-out hover:scale-105"
+            />
+          </div>
+          <!-- Galería de Miniaturas -->
+          <div class="flex gap-3 justify-center items-center">
+            {
+              galeria.map((img, i) => (
+                <div class="bg-slate-600/40 rounded-md overflow-hidden">
+                  <img
+                    src={`/src/assets/images/${img}`}
+                    alt={`Galería de ${title} - imagen ${i}`}
+                    class="thumbnail cursor-pointer w-80 h-25 object-contain rounded-md border-2 border-transparent hover:border-red-500 transition-all duration-200 py-2"
+                    data-image-src={`/src/assets/images/${img}`}
+                  />
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- Columna de Información del Producto -->
+        <div class="flex flex-col">
+          <!-- Marca y Modelo -->
+          <div class="mb-2">
+            <span
+              class="text-lg font-semibold text-red-600 uppercase border-2 rounded-full border-red-500 px-4 py-1"
+              >{marca}</span
+            >
+            <span class="text-lg text-gray-500"> Modelo: {modelo}</span>
+          </div>
+          <!-- Título del Producto -->
+          <div class="w-full flex items-center justify-between">
+            <h1
+              class="text-3xl md:text-4xl font-extrabold text-slate-200 tracking-wider"
+            >
+              {title}
+            </h1>
+            <a
+              href={`/producto/${slug}/financiamiento`}
+              class="bg-green-700 hover:bg-green-800 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-lg transition-transform duration-200 ease-in-out hover:scale-102 focus:outline-none focus:ring-4 focus:ring-green-300 flex items-center justify-center gap-3"
+              >Calcular Financiamiento</a
+            >
+          </div>
+          <div class="flex text-slate-200 w-full justify-center gap-2 py-4">
+            <div
+              class="flex text-xl text-slate-200 flex items-center gap-2 w-full justify-center border-2 border-gray-500 py-2 rounded-lg bg-slate-600/40"
+            >
+              <Icon name="credit-card" size="25" />
+              <span class="text-sm">Garantía de 2 años</span>
+            </div>
+            <div
+              class="flex text-xl text-slate-200 flex items-center gap-2 w-full justify-center border-2 border-gray-500 py-2 rounded-lg bg-slate-600/40"
+            >
+              <Icon name="shield" size="25" />
+              <span class="text-sm">Financiamiento disponible</span>
+            </div>
+          </div>
+
+          <!-- Precio -->
+          <div
+            class="mb-4 border-2 border-gray-500 rounded-lg py-4 px-2 bg-slate-600/40"
+          >
+            <p class="text-2xl font-semibold text-slate-200">
+              {formattedPrice}
+            </p>
+            <span class="text-lg text-slate-200">Precio de contado</span>
+          </div>
+
+          <!-- Descripción -->
+          <!-- <div class="prose prose-lg text-gray-600 mb-8">
+            <p>{descripcion}</p>
+          </div> -->
+
+          <!-- Especificaciones Clave -->
+          <div
+            class="border-2 border-gray-500 py-6 px-2 rounded-lg mb-6 bg-slate-600/40"
+          >
+            <h3
+              class="text-xl font-semibold text-gray-200 mb-4 border-b-2 border-gray-500 pb-2"
+            >
+              Especificaciones
+            </h3>
+            <ul class="space-y-3 text-gray-200">
+              {
+                especificaciones &&
+                  especificaciones.map((spec) => {
+                    // Obtiene la clave (ej. 'motor') y el valor (ej. '125 cc') del objeto
+                    const key = Object.keys(spec)[0]; // Esto te da 'motor', 'potencia', etc.
+                    const value = spec[key]; // Esto te da '125 cc', '11.5HP', etc.
+
+                    return (
+                      <li class="flex w-full justify-between items-center border-b-2 border-gray-400">
+                        <strong class="capitalize font-semibold text-sm">
+                          {key}:
+                        </strong>{" "}
+                        <span class="text-xl">{value}</span>
+                      </li>
+                    );
+                  })
+              }
+            </ul>
+          </div>
+
+          <!-- Botón de Acción (CTA) -->
+          <div class="mt-auto">
+            <a
+              href="#"
+              class="w-full bg-green-700 hover:bg-green-800 text-white text-lg font-bold py-4 px-6 rounded-lg shadow-lg transition-transform duration-200 ease-in-out hover:scale-102 focus:outline-none focus:ring-4 focus:ring-green-300 flex items-center justify-center gap-3"
+            >
+              <Icon name="whatsapp" size="25" />
+              Contactar por WhatsApp
+            </a>
+            <div class="flex gap-2 justify-center items-center w-full py-4">
+              <a
+                href="#"
+                class="text-lg text-slate-200 flex items-center gap-2 w-full justify-center border-2 border-gray-500 py-2 rounded-lg bg-slate-600/40 transition-transform duration-200 ease-in-out hover:scale-102"
+                ><Icon name="phone" size="25" /> Llamar</a
+              >
+              <a
+                href="#"
+                class="text-lg text-slate-200 flex items-center gap-2 w-full justify-center border-2 border-gray-500 py-2 rounded-lg bg-slate-600/40 transition-transform duration-200 ease-in-out hover:scale-102"
+                ><Icon name="share" size="25" /> Compartir<a></a>
+              </a>
+            </div>
+
+            <p class="text-center text-sm text-gray-500 mt-3">
+              Un asesor le atenderá de inmediato.
+            </p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </section>
+</ProductoLayout>
+
+<style>
+  /* Estilo para la miniatura activa en la galería */
+  .thumbnail-active {
+    border-color: #1e40af; /* Un azul intenso para destacar */
+    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3);
+  }
+</style>
+
+<script is:inline>
+  // --- Lógica para la Galería de Imágenes ---
+  document.addEventListener("DOMContentLoaded", () => {
+    const mainImage = document.getElementById("mainImage");
+    const thumbnails = document.querySelectorAll(".thumbnail");
+
+    // Función para actualizar la imagen activa
+    const setActiveThumbnail = (thumb) => {
+      // Quita la clase activa de todas las miniaturas
+      thumbnails.forEach((t) => t.classList.remove("thumbnail-active"));
+      // Añade la clase activa a la miniatura seleccionada
+      thumb.classList.add("thumbnail-active");
+    };
+
+    thumbnails.forEach((thumbnail) => {
+      thumbnail.addEventListener("click", () => {
+        // Obtiene la URL de la imagen del atributo data
+        const newImageSrc = thumbnail.dataset.imageSrc;
+
+        // Cambia la fuente de la imagen principal
+        if (mainImage && newImageSrc) {
+          mainImage.src = newImageSrc;
+        }
+
+        // Actualiza la miniatura activa
+        setActiveThumbnail(thumbnail);
+      });
+    });
+
+    // Inicializa la primera miniatura como activa
+    if (thumbnails.length > 0) {
+      setActiveThumbnail(thumbnails[0]);
+    }
+  });
+</script>

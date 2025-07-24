@@ -1,0 +1,62 @@
+---
+
+---
+
+<!-- src/components/BannerVideo.astro -->
+<section class="relative w-full h-[60vh] md:h-[75vh] bg-dark overflow-hidden">
+  <!-- Imagen de fondo -->
+  <img
+    src="/src/assets/images/banner.png"
+    alt="Banner promocional"
+    class="absolute inset-0 w-full h-full object-cover opacity-80"
+  />
+
+  <!-- Botón de reproducción -->
+  <div
+    id="play-button-container"
+    class="absolute inset-0 flex items-center justify-center z-20"
+  >
+    <button
+      id="play-button"
+      class="bg-slate-200/60 hover:bg-slate-200 text-red-600 font-bold rounded-full p-8 shadow-xl transition-transform transform hover:scale-110"
+    >
+      <img src="/src/assets/images/play-icon.svg" class="size-12" alt="" />
+    </button>
+  </div>
+
+  <!-- Contenedor del iframe -->
+  <div id="video-container" class="absolute inset-0 z-30 hidden">
+    <iframe
+      id="video-frame"
+      width="100%"
+      height="100%"
+      src=""
+      title="Video promocional"
+      frameborder="0"
+      allow="autoplay; encrypted-media"
+      allowfullscreen
+      class="w-full h-full"></iframe>
+  </div>
+
+  <!-- Sombra para contraste de contenido -->
+  <div class="absolute inset-0 bg-gradient-to-b from-dark/40 to-dark/60 z-10">
+  </div>
+</section>
+
+<script is:inline>
+  document.addEventListener("DOMContentLoaded", () => {
+    const button = document.getElementById("play-button");
+    const videoContainer = document.getElementById("video-container");
+    const buttonContainer = document.getElementById("play-button-container");
+    const iframe = document.getElementById("video-frame");
+    const videoId = "9Yvqn6vWxcU"; // Reemplaza por tu video
+
+    if (button) {
+      button.addEventListener("click", () => {
+        buttonContainer.style.display = "none";
+        videoContainer.classList.remove("hidden");
+        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+      });
+    }
+  });
+</script>

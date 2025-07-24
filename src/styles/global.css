@@ -1,0 +1,8 @@
+@import "tailwindcss";
+
+
+@theme{
+    --color-dark: #1f262e;
+    --color-dark-secondary: #161d25;
+    --color-dark-card: #1c232b;
+}

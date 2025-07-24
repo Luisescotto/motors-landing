@@ -1,0 +1,35 @@
+<dialog id="financing" class="bg-slate-200 rounded-xl w-96 m-auto sticky" open>
+  <form
+    method="dialog"
+    action="#"
+    class="flex flex-col justify-center items-center p-12 text-center"
+  >
+    <div class="flex flex-col gap-4 py-6 w-fit">
+      <input
+        id="precio"
+        type="text"
+        placeholder="Precio"
+        class="text-center border-2 border-slate-900 rounded-lg"
+        oninput="formatearNumero(this)"
+        ...
+      />
+      <input
+        id="inicial"
+        type="text"
+        placeholder="Inicial"
+        class="text-center border-2 border-slate-900 rounded-lg"
+        oninput="formatearNumero(this)"
+        ...
+      />
+      <input
+        id="seguro"
+        type="text"
+        placeholder="Seguro"
+        class="text-center border-2 border-slate-900 rounded-lg"
+        oninput="formatearNumero(this)"
+        ...
+      />
+    </div>
+    <button>Cerrar</button>
+  </form>
+</dialog>

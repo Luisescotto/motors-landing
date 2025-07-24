@@ -1,0 +1,42 @@
+---
+import { getCollection } from "astro:content";
+import ProductCard from "./productCard.astro";
+const productsToShow = 4;
+const productos = await getCollection("productos");
+
+const limitedProducts = productos.slice(0, productsToShow);
+---
+
+<!-- src/components/CatalogoMotos.astro -->
+<section id="catalogo" class="bg-dark py-8 px-6">
+  <div class="max-w-7xl mx-auto">
+    <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-200 mb-12">
+      Catálogo de Motores
+    </h2>
+
+    <!--product cards -->
+    <ul
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+    >
+      {
+        limitedProducts.map((product) => (
+          <ProductCard
+            title={product.data.title}
+            slug={product.slug}
+            precio={product.data.precio}
+            marca={product.data.marca}
+            modelo={product.data.modelo}
+            imagen={product.data.imagen}
+          />
+        ))
+      }
+    </ul>
+
+    <div class="w-full text-center pt-12 pb-6">
+      <a
+        class="px-8 py-4 text-xl font-bold bg-slate-200 rounded-xl hover:text-slate-200 hover:bg-red-600 transition-colors duration-300"
+        href="/productos">Ver todos</a
+      >
+    </div>
+  </div>
+</section>

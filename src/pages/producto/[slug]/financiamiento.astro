@@ -1,0 +1,66 @@
+---
+// src/pages/producto/[slug]/financiamiento.astro
+import { getCollection } from "astro:content";
+import { Icon } from "astro-icon/components";
+
+import ProductoLayout from "@/layouts/ProductoLayout.astro";
+import FinancingForm from "@/components/islands/FinancingForm";
+
+export async function getStaticPaths() {
+  const productos = await getCollection("productos");
+  return productos.map((producto) => ({
+    params: { slug: producto.slug },
+    props: { producto },
+  }));
+}
+// --- Props y Desestructuración de Datos ---
+const { producto } = Astro.props;
+const { data } = producto;
+// Extraemos las propiedades del producto, incluyendo un array para la galería.
+const { title, precio, imagen } = data;
+
+const { slug } = Astro.params;
+---
+
+<ProductoLayout>
+  <article class="flex justify-center w-full h-auto bg-dark pb-6">
+    <div
+      class="w-full max-w-7xl h-full flex flex-col justify-center items-center px-4 gap-2"
+    >
+      <img
+        src={`/src/assets/images/${imagen}`}
+        alt={title}
+        style="max-width:300px"
+        class="mt-6"
+      />
+      <div class="text-slate-200 bg-dark-secondary p-6 rounded-md">
+        <h1 class="text-3xl font-bold">{title}</h1>
+
+        <p class="text-xl pb-2">
+          Precio de contado: <span class="text-green-300">RD${precio}</span>
+        </p>
+        <!-- Aquí insertaremos el formulario interactivo -->
+        <FinancingForm client:load price={precio} />
+      </div>
+
+      <div
+        class="flex flex-col md:flex-row w-full justify-center items-center gap-4"
+      >
+        <div
+          class="text-slate-200 flex justify-center border-2 border-gray-500 py-2 px-4 rounded-lg bg-slate-600/40 gap-2 w-fit"
+        >
+          <Icon name="whatsapp" size="25" />
+
+          <a href="#">Contactar por WhatsApp</a>
+        </div>
+        <div
+          class="text-slate-200 flex justify-center border-2 border-gray-500 py-2 px-4 rounded-lg bg-slate-600/40 gap-2 w-fit"
+        >
+          <Icon name="phone" size="25" />
+
+          <a href="#">Llamar</a>
+        </div>
+      </div>
+    </div>
+  </article>
+</ProductoLayout>
