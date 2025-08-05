@@ -6,10 +6,10 @@ import "@fontsource-variable/roboto";
 
 import { getBussinesInfo } from "../lib/wp";
 
-const { logo, nombre, descripcion, keywords, direccion_web } =
-  await getBussinesInfo();
+const { logo, nombre, keywords, direccion_web } = await getBussinesInfo();
 
-const { titulo, imagen } = Astro.props;
+const { titulo, imagen, descripcion, categoria } = Astro.props;
+console.log(titulo);
 ---
 
 <!doctype html>
@@ -19,21 +19,32 @@ const { titulo, imagen } = Astro.props;
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="title" content={nombre} />
-    <meta name="description" content={descripcion} />
-    <meta name="keywords" content={keywords} />
+    <title>{titulo ? `${titulo} - ${nombre}` : `Catálogo - ${nombre}`}</title>
+    <!-- ESTA LÍNEA ES LA QUE FALTABA -->
+    <meta name="title" content={titulo ? `${titulo} - ${nombre}` : nombre} />
+    <meta
+      name="description"
+      content=`${descripcion} Ven por la tuya a ${nombre}`
+    />
+    <meta name="keywords" content=`${keywords}, ${titulo}, ${categoria}` />
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:title" content={nombre} />
-    <meta property="og:description" content={descripcion} />
+    <meta property="og:title" content={`${titulo} - ${nombre}`} />
+    <meta
+      property="og:description"
+      content=`${descripcion} Ven por la tuya a ${nombre}`
+    />
     <meta property="og:image" content={imagen} />
     <meta property="og:url" content={direccion_web} />
     <meta property="og:type" content="product" />
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={nombre} />
-    <meta name="twitter:description" content={descripcion} />
+    <meta name="twitter:title" content={`${titulo} - ${nombre}`} />
+    <meta
+      name="twitter:description"
+      content=`${descripcion} Ven por la tuya a ${nombre}`
+    />
     <meta name="twitter:image" content={imagen} />
 
     <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png" />

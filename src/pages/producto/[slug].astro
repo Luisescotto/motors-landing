@@ -18,6 +18,8 @@ export async function getStaticPaths() {
 
 const {
   titulo,
+  descripcion,
+  ano,
   categoria,
   modelo,
   marca,
@@ -50,19 +52,35 @@ const formattedOferta = !isNaN(numericOferta)
 const relateds = await getRelatedProducts(categoria, slug);
 ---
 
-<ProductoLayout titulo={titulo} imagen={imagen}>
-  <main class="bg-white text-dark pt-12">
+<ProductoLayout
+  titulo={titulo}
+  imagen={imagen}
+  descripcion={descripcion}
+  categoria={categoria}
+>
+  <main class="bg-white text-dark pt-12 text-left">
+    <div class="pt-8 max-w-7xl mx-auto px-4 flex flex-col items-center">
+      <div class="text-center">
+        <h1 class="text-4xl text-main font-bold capitalize">
+          {`${titulo} (${ano})`}
+        </h1>
+      </div>
+    </div>
     <section
-      class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-2 gap-2"
+      class="max-w-7xl mx-auto px-4 pb-6 grid grid-cols-1 lg:grid-cols-2 gap-2"
     >
-      <div class="flex flex-col md:flex-row gap-4 w-full">
+      <div
+        class="flex flex-col md:flex-row gap-4 w-full justify-center items-center"
+      >
         <img
           id="mainImage"
           src={imagen}
           alt={titulo}
           class="rounded-xl shadow-lg w-full lg:w-96 h-96 object-contain"
         />
-        <div class="flex md:flex-col flex-wrap gap-3 justify-center">
+        <div
+          class="flex md:flex-col flex-wrap gap-3 justify-center md:items-center"
+        >
           {
             galeria.map((img, i) => (
               <img
@@ -76,15 +94,12 @@ const relateds = await getRelatedProducts(categoria, slug);
         </div>
       </div>
 
-      <div class="flex flex-col justify-between py-4">
-        <span
-          class="rounded-full text-sm font-semibold py-1 px-2 bg-main text-white w-fit"
-          >2025</span
+      <div class="py-4">
+        <div
+          class="max-w-7xl mx-auto pb-6 text-left text-sm text-main/90 font-medium leading-6"
         >
-        <div>
-          <h1 class="text-4xl text-main font-bold capitalize">{titulo}</h1>
+          {descripcion}
         </div>
-
         <div class="space-y-2">
           {
             precioOferta ? (
@@ -101,7 +116,7 @@ const relateds = await getRelatedProducts(categoria, slug);
           }
         </div>
 
-        <div class="flex flex-col md:flex-row gap-4 py-4 md:p-0">
+        <div class="flex flex-col md:flex-row gap-4 py-4">
           <div class="flex items-center gap-2 text-main font-semibold">
             <Icon name="credit-card" size="20" /> Financiamiento disponible
           </div>
@@ -118,7 +133,7 @@ const relateds = await getRelatedProducts(categoria, slug);
             <Icon name="whatsapp" size="20" /> Contactar por WhatsApp
           </a>
           <a
-            href="#"
+            href="/#contacto"
             class="bg-main/10 hover:bg-main/30 text-dark py-3 px-4 rounded-lg flex items-center justify-center gap-2"
           >
             <Icon name="phone" size="20" /> Llamar
@@ -131,21 +146,32 @@ const relateds = await getRelatedProducts(categoria, slug);
             <span id="tooltip" class="tooltip">¡Enlace copiado!</span>
           </button>
         </div>
-      </div>
-    </section>
 
-    <section class="max-w-7xl mx-auto px-4 pb-12">
-      <h2 class="text-2xl font-bold text-center mb-6">Especificaciones</h2>
-      <div
-        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
-      >
         {
-          especificaciones.map(([key, value]) => (
-            <div class="bg-[#2d2d2d] text-white rounded-xl p-4 shadow">
-              <p class="text-sm text-acent uppercase">{key}</p>
-              <p class="text-base font-semibold capitalize">{value}</p>
-            </div>
-          ))
+          Array.isArray(especificaciones) &&
+            especificaciones.filter(
+              ([_, value]) => value && value.trim() !== ""
+            ).length > 0 && (
+              <div class="max-w-7xl mx-auto px-4 py-6">
+                <h2 class="text-2xl font-bold text-center mb-6">
+                  Especificaciones
+                </h2>
+                <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {especificaciones
+                    .filter(([_, value]) => value && value.trim() !== "")
+                    .map(([key, value]) => (
+                      <div class="bg-main/10 hover:bg-main/30 rounded-lg p-4 shadow">
+                        <p class="text-sm text-dark/80 capitalize font-medium">
+                          {key}
+                        </p>
+                        <p class="text-base text-dark font-semibold capitalize">
+                          {value}
+                        </p>
+                      </div>
+                    ))}
+                </div>
+              </div>
+            )
         }
       </div>
     </section>
@@ -175,6 +201,7 @@ const relateds = await getRelatedProducts(categoria, slug);
           <ProductCard
             titulo={related.titulo}
             slug={related.slug}
+            ano={related.ano}
             precio={related.precio}
             precioOferta={related.precioOferta}
             marca={related.marca}

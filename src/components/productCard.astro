@@ -1,5 +1,5 @@
 ---
-const { slug, titulo, precio, precioOferta, imagen, marca, modelo } =
+const { slug, titulo, ano, precio, precioOferta, imagen, marca, modelo } =
   Astro.props;
 
 function formatearPrecio(valor: number) {
@@ -11,7 +11,7 @@ function formatearPrecio(valor: number) {
 }
 ---
 
-<li class="group cursor-pointer h-auto shadow-xl">
+<li class="group cursor-pointer h-auto shadow-xl" data-marca={marca}>
   <a href={`/producto/${slug}`}>
     <div class="flex flex-col items-center rounded-xl h-full relative">
       {
@@ -27,7 +27,7 @@ function formatearPrecio(valor: number) {
         <h3
           class="pt-6 text-lg font-semibold text-white leading-tight capitalize"
         >
-          {titulo}
+          {`${titulo} (${ano})`}
         </h3>
         {
           precioOferta ? (

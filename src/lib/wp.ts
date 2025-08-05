@@ -59,6 +59,8 @@ export const getProductInfo = async(slug: string) =>{
     const [data] = await response.json()
 
         const titulo= data.acf.titulo;
+        const descripcion = data.acf.descripcion;
+        const ano = data.acf.ano;
         const categoria = data.acf.categoria;
         const modelo = data.acf.modelo;
         const marca = data.acf.marca;
@@ -70,7 +72,7 @@ export const getProductInfo = async(slug: string) =>{
         const especificaciones = Object.entries(data.acf.especificaciones)
         const galeria = Object.values(data.acf.galeria)
 
-        return {titulo, slug, categoria, modelo, marca, precio, precioOferta,imagen, especificaciones,galeria}
+        return {titulo, slug, descripcion, ano, categoria, modelo, marca, precio, precioOferta,imagen, especificaciones,galeria}
 }
 
 
@@ -104,27 +106,19 @@ export const getLatestProducts = async({perPage = 10}: {perPage?: number} = {}) 
     }
 
     const products = results.map(product =>{
-        // const {
-        // title: {rendered: title}, 
-        // excerpt: {rendered: excerpt},
-        // content: {rendered: content},
-        // date,
-        // slug
-    
-        // } = post;
-
+        
         const titulo= product.acf.titulo;
         const {date, slug} = product;
+        const ano = product.acf.ano;
         const modelo = product.acf.modelo;
         const marca = product.acf.marca;
         const precio = product.acf.precio;
         const precioOferta = product.acf.precio_oferta;
         const imagen = product.acf.imagen;
-        return {titulo, date, slug, modelo, marca, precio, precioOferta, imagen}
+        return {titulo, date, slug, ano, modelo, marca, precio, precioOferta, imagen}
     })
 
     return products;
-
 
 }
 
@@ -146,13 +140,14 @@ export const getRelatedProducts = async (categoria: string, currentSlug: string)
   const products = filtered.map(product => {
     const titulo = product.acf.titulo;
     const { date, slug } = product;
+    const ano = product.acf.ano;
     const modelo = product.acf.modelo;
     const marca = product.acf.marca;
     const precio = product.acf.precio;
     const precioOferta = product.acf.precio_oferta;
     const imagen = product.acf.imagen;
 
-    return { titulo, date, slug, modelo, marca, precio, precioOferta, imagen };
+    return { titulo, date, slug, ano, modelo, marca, precio, precioOferta, imagen };
   });
 
   return products;

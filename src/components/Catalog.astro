@@ -10,7 +10,7 @@ const limitedProducts = productos.slice(0, productsToShow);
 const products = await getLatestProducts({ perPage: 4 });
 ---
 
-<section id="catalogo" class="bg-white py-12 px-4 w-full">
+<section id="catalogo" class="bg-white py-12 px-4 w-full scroll-mt-14">
   <div class="w-full mx-auto max-w-7xl text-center px-4">
     <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">
       Catálogo de Motocicletas
@@ -28,6 +28,7 @@ const products = await getLatestProducts({ perPage: 4 });
           <ProductCard
             titulo={product.titulo}
             slug={product.slug}
+            ano={product.ano}
             precio={product.precio}
             precioOferta={product.precioOferta}
             marca={product.marca}
@@ -41,7 +42,7 @@ const products = await getLatestProducts({ perPage: 4 });
     <div class="w-full text-center pt-12 pb-6">
       <a
         class="inline-block mt-6 px-12 py-3 bg-acent hover:bg-main-dark text-white font-semibold transition duration-300 w-fit shadow-lg shadow-acent/60"
-        href="/productos">Ver catálogo completo</a
+        href="/productos">Ver todos los modelos</a
       >
     </div>
   </div>

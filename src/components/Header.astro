@@ -15,7 +15,7 @@ const socials = await getAllSocials();
       <!-- Menú de navegación (desktop) -->
       <div class="hidden md:flex space-x-8">
         <a
-          href="/"
+          href="/#"
           class="text-dark hover:text-acent transition-colors duration-200 text-lg font-medium"
           >Inicio</a
         >
@@ -79,22 +79,26 @@ const socials = await getAllSocials();
     >
       ✕
     </button>
-    <Logo />
-    <a href="/" class="py-2 text-dark hover:text-acent text-3xl font-medium"
+    <Logo class="link" />
+    <a
+      href="/#"
+      class="py-2 text-dark hover:text-acent text-3xl font-medium link"
       >Inicio</a
     >
     <a
       href="/#financiamiento"
-      class="py-2 text-dark hover:text-acent text-3xl font-medium"
+      class="py-2 text-dark hover:text-acent text-3xl font-medium link"
       >Financiamiento</a
     >
     <a
       href="/#catalogo"
-      class="py-2 text-dark hover:text-acent text-3xl font-medium">Catálogo</a
+      class="py-2 text-dark hover:text-acent text-3xl font-medium link"
+      >Catálogo</a
     >
     <a
       href="/#contacto"
-      class="py-2 text-dark hover:text-acent text-3xl font-medium">Contacto</a
+      class="py-2 text-dark hover:text-acent text-3xl font-medium link"
+      >Contacto</a
     >
   </div>
 
@@ -118,6 +122,7 @@ const socials = await getAllSocials();
   const closeBtn = document.getElementById("close-menu");
   const menu = document.getElementById("mobile-menu");
   const overlay = document.getElementById("overlay");
+  const links = document.querySelectorAll(".link");
 
   openBtn?.addEventListener("click", () => {
     menu.classList.remove("translate-x-full");
@@ -132,5 +137,12 @@ const socials = await getAllSocials();
   overlay?.addEventListener("click", () => {
     menu.classList.add("translate-x-full");
     overlay.classList.add("hidden");
+  });
+
+  links.forEach((element) => {
+    element.addEventListener("click", () => {
+      menu.classList.add("translate-x-full");
+      overlay.classList.add("hidden");
+    });
   });
 </script>
