@@ -27,7 +27,7 @@ export default function FinancingForm({ price }) {
     <>
       <h2 className="text-xl font-semibold text-green-700 text-center">Modifica los datos de tu préstamo aquí</h2>
       
-      <form className="py-4 px-6 mx-auto w-full space-y-6 flex justify-center gap-4 max-w-4xl">
+      <form className="py-4 px-6 mx-auto w-full space-y-6 flex flex-col md:flex-row justify-center gap-4 max-w-4xl">
 
         {/* Monto Inicial */}
         <div className="bg-white p-6 rounded-xl shadow-md text-dark w-full text-left border border-main">
