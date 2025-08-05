@@ -1,58 +1,37 @@
 ---
 import Layout from "@/layouts/ProductoLayout.astro";
 import ProductCard from "@/components/productCard.astro";
-import { getCollection } from "astro:content";
-const productos = await getCollection("productos");
+
+import { getLatestProducts } from "../../lib/wp";
+const products = await getLatestProducts({ perPage: 100 });
 ---
 
 <Layout>
-  <section class="bg-dark text-slate-200">
-    <main class="max-w-6xl mx-auto px-4 py-8">
-      <h1 class="text-3xl font-bold my-6">Motocicletas disponibles</h1>
+  <section class="bg-white py-12 px-4 w-full">
+    <main class="w-full mx-auto max-w-7xl text-center px-4">
+      <h1 class="text-dark text-3xl font-bold my-6">
+        Motocicletas disponibles
+      </h1>
+      <p class="text-dark/80 text-lg leading-relaxed mb-4">
+        Descubre nuestra amplia selección de modelos disponibles
+      </p>
       <ul
-        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center"
       >
         {
-          productos.map((producto) => (
+          products.map((product) => (
             <ProductCard
-              title={producto.data.title}
-              slug={producto.slug}
-              precio={producto.data.precio}
-              marca={producto.data.marca}
-              modelo={producto.data.modelo}
-              imagen={producto.data.imagen}
+              titulo={product.titulo}
+              slug={product.slug}
+              precio={product.precio}
+              precioOferta={product.precioOferta}
+              marca={product.marca}
+              modelo={product.modelo}
+              imagen={product.imagen}
             />
           ))
         }
       </ul>
     </main>
   </section>
-
-  <script is:inline>
-    const priceElements = document.querySelectorAll(".price-display");
-
-    // Itera sobre cada elemento de precio encontrado
-    priceElements.forEach((priceElement) => {
-      // Obtiene el precio en bruto del atributo 'data-price'
-      const rawPrice = priceElement.dataset.price;
-      // Convierte el precio a un número
-      const numericPrice = Number(rawPrice);
-
-      let formattedPriceText = "Precio no disponible";
-
-      // Verifica si el precio es un número válido
-      if (!isNaN(numericPrice)) {
-        // Formatea el precio a la moneda dominicana (DOP)
-        formattedPriceText = new Intl.NumberFormat("es-DO", {
-          style: "currency", // Indica que es un formato de moneda
-          currency: "DOP", // Especifica la moneda: Peso Dominicano
-          minimumFractionDigits: 2, // Asegura al menos 2 decimales
-          maximumFractionDigits: 2, // Asegura como máximo 2 decimales
-        }).format(numericPrice);
-      }
-
-      // Asigna el texto formateado al contenido del elemento
-      priceElement.textContent = formattedPriceText;
-    });
-  </script>
 </Layout>

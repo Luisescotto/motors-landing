@@ -1,0 +1,19 @@
+---
+import { Image } from "astro:assets";
+
+import { getLogo } from "@/lib/wp";
+
+const logo = await getLogo();
+---
+
+<a href="/">
+  <div class="flex items-center justify-center">
+    <Image
+      class="h-22 w-22"
+      width="512"
+      height="512"
+      src={logo}
+      alt="Logo tienda de motos"
+    />
+  </div>
+</a>

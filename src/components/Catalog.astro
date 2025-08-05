@@ -1,32 +1,38 @@
 ---
 import { getCollection } from "astro:content";
 import ProductCard from "./productCard.astro";
+import { getLatestProducts } from "../lib/wp";
+
 const productsToShow = 4;
 const productos = await getCollection("productos");
 
 const limitedProducts = productos.slice(0, productsToShow);
+const products = await getLatestProducts({ perPage: 4 });
 ---
 
-<!-- src/components/CatalogoMotos.astro -->
-<section id="catalogo" class="bg-dark py-8 px-6">
-  <div class="max-w-7xl mx-auto">
-    <h2 class="text-3xl md:text-4xl font-bold text-center text-slate-200 mb-12">
-      Catálogo de Motores
+<section id="catalogo" class="bg-white py-12 px-4 w-full">
+  <div class="w-full mx-auto max-w-7xl text-center px-4">
+    <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">
+      Catálogo de Motocicletas
     </h2>
+    <p class="text-dark/80 text-lg leading-relaxed mb-6">
+      Descubre nuestra amplia selección de modelos disponibles
+    </p>
 
     <!--product cards -->
     <ul
-      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8"
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center"
     >
       {
-        limitedProducts.map((product) => (
+        products.map((product) => (
           <ProductCard
-            title={product.data.title}
+            titulo={product.titulo}
             slug={product.slug}
-            precio={product.data.precio}
-            marca={product.data.marca}
-            modelo={product.data.modelo}
-            imagen={product.data.imagen}
+            precio={product.precio}
+            precioOferta={product.precioOferta}
+            marca={product.marca}
+            modelo={product.modelo}
+            imagen={product.imagen}
           />
         ))
       }
@@ -34,9 +40,22 @@ const limitedProducts = productos.slice(0, productsToShow);
 
     <div class="w-full text-center pt-12 pb-6">
       <a
-        class="px-8 py-4 text-xl font-bold bg-slate-200 rounded-xl hover:text-slate-200 hover:bg-red-600 transition-colors duration-300"
+        class="inline-block mt-6 px-12 py-3 bg-acent hover:bg-main-dark text-white font-semibold transition duration-300 w-fit shadow-lg shadow-acent/60"
         href="/productos">Ver todos</a
       >
     </div>
+  </div>
+</section>
+
+<section class="bg-[#2d2d2d] text-white py-12 px-4 text-center">
+  <div class="max-w-4xl mx-auto">
+    <h3 class="text-2xl md:text-3xl font-bold tracking-wide">
+      ¡Financiamiento disponible en todos los modelos!
+    </h3>
+    <p class="text-base md:text-lg mt-2">
+      Llévate tu motocicleta hoy mismo con <span
+        class="text-acent text-xl font-semibold">cómodas cuotas mensuales.</span
+      >
+    </p>
   </div>
 </section>

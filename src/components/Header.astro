@@ -1,41 +1,38 @@
 ---
-import { Image } from "astro:assets";
-import logo from "../assets/images/logo.png";
+import Logo from "./Logo.astro";
+import Socials from "./Socials.astro";
+
+import { getAllSocials } from "../lib/wp";
+const socials = await getAllSocials();
 ---
 
-<nav class="bg-transparent text-slate-200 absolute w-full top-0 z-50">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+<nav class="text-white fixed w-full top-0 z-30 bg-white shadow-md">
+  <div class="max-w-7xl mx-auto px-4">
     <div class="flex items-center justify-between h-16">
       <!-- Logo -->
-      <a href="/">
-        <div class="flex items-center">
-          <Image
-            class="h-18 w-auto mr-2"
-            width="512"
-            height="512"
-            src={logo}
-            alt="Logo tienda de motos"
-          />
-        </div>
-      </a>
+      <Logo />
 
       <!-- Menú de navegación (desktop) -->
       <div class="hidden md:flex space-x-8">
-        <a href="/" class="hover:text-red-500 transition-colors duration-200"
+        <a
+          href="/"
+          class="text-dark hover:text-acent transition-colors duration-200 text-lg font-medium"
           >Inicio</a
         >
         <a
           href="/#financiamiento"
-          class="hover:text-red-500 transition-colors duration-200"
+          class="text-dark hover:text-acent transition-colors duration-200 text-lg font-medium"
           >Financiamiento</a
         >
         <a
           href="/#catalogo"
-          class="hover:text-red-500 transition-colors duration-200">Catálogo</a
+          class="text-dark hover:text-acent transition-colors duration-200 text-lg font-medium"
+          >Catálogo</a
         >
         <a
           href="/#contacto"
-          class="hover:text-red-500 transition-colors duration-200">Contacto</a
+          class="text-dark hover:text-acent transition-colors duration-200 text-lg font-medium"
+          >Contacto</a
         >
       </div>
 
@@ -43,7 +40,7 @@ import logo from "../assets/images/logo.png";
       <button
         id="open-menu"
         type="button"
-        class="text-slate-200 hover:text-red-500 focus:outline-none focus:text-slate-200 md:hidden"
+        class="text-dark hover:text-acent focus:outline-none focus:text-white md:hidden cursor-pointer"
       >
         <svg
           class="h-6 w-6"
@@ -61,38 +58,60 @@ import logo from "../assets/images/logo.png";
       </button>
     </div>
   </div>
-
-  <!-- Overlay oscuro -->
-  <div
-    id="overlay"
-    class="fixed inset-0 bg-dark/40 bg-opacity-40 backdrop-blur-sm z-40 hidden"
-  >
-  </div>
-
-  <!-- Menú móvil -->
-  <div
-    id="mobile-menu"
-    class="fixed top-0 right-0 h-full w-64 bg-slate-200 z-50 transform translate-x-full transition-transform duration-300 md:hidden shadow-lg"
-  >
-    <div class="p-4 flex flex-col">
-      <button
-        id="close-menu"
-        class="self-end text-dark hover:text-red-500 text-xl"
-      >
-        ✕
-      </button>
-      <a href="/" class="py-2 text-dark hover:text-red-500">Inicio</a>
-      <a href="/#financiamiento" class="py-2 text-dark hover:text-red-500"
-        >Financiamiento</a
-      >
-      <a href="/#catalogo" class="py-2 text-dark hover:text-red-500">catálogo</a
-      >
-
-      <a href="/#contacto" class="py-2 text-dark hover:text-red-500">Contacto</a
-      >
-    </div>
-  </div>
 </nav>
+
+<!-- Overlay oscuro -->
+<div
+  id="overlay"
+  class="fixed inset-0 bg-black/40 backdrop-blur-sm z-40 hidden transition-opacity duration-300"
+>
+</div>
+
+<!-- Menú móvil -->
+<div
+  id="mobile-menu"
+  class="fixed top-0 right-0 h-full w-64 bg-white/80 backdrop-blur-lg z-50 transform translate-x-full transition-transform duration-300 md:hidden shadow-lg"
+>
+  <div class="p-4 flex flex-col">
+    <button
+      id="close-menu"
+      class="self-end text-dark hover:text-acent text-xl cursor-pointer"
+    >
+      ✕
+    </button>
+    <Logo />
+    <a href="/" class="py-2 text-dark hover:text-acent text-3xl font-medium"
+      >Inicio</a
+    >
+    <a
+      href="/#financiamiento"
+      class="py-2 text-dark hover:text-acent text-3xl font-medium"
+      >Financiamiento</a
+    >
+    <a
+      href="/#catalogo"
+      class="py-2 text-dark hover:text-acent text-3xl font-medium">Catálogo</a
+    >
+    <a
+      href="/#contacto"
+      class="py-2 text-dark hover:text-acent text-3xl font-medium">Contacto</a
+    >
+  </div>
+
+  <div class="w-full">
+    <ul class="space-y-2 text-sm flex gap-6 px-4 flex-wrap">
+      {
+        socials.map((social) => (
+          <Socials
+            titulo={social.titulo}
+            link={social.link}
+            icono={social.icono}
+          />
+        ))
+      }
+    </ul>
+  </div>
+</div>
 
 <script is:inline>
   const openBtn = document.getElementById("open-menu");
@@ -100,17 +119,17 @@ import logo from "../assets/images/logo.png";
   const menu = document.getElementById("mobile-menu");
   const overlay = document.getElementById("overlay");
 
-  openBtn.addEventListener("click", () => {
+  openBtn?.addEventListener("click", () => {
     menu.classList.remove("translate-x-full");
     overlay.classList.remove("hidden");
   });
 
-  closeBtn.addEventListener("click", () => {
+  closeBtn?.addEventListener("click", () => {
     menu.classList.add("translate-x-full");
     overlay.classList.add("hidden");
   });
 
-  overlay.addEventListener("click", () => {
+  overlay?.addEventListener("click", () => {
     menu.classList.add("translate-x-full");
     overlay.classList.add("hidden");
   });

@@ -1,244 +1,257 @@
 ---
 // src/pages/productos/[slug].astro
-import { getCollection } from "astro:content";
 import ProductoLayout from "@/layouts/ProductoLayout.astro";
+import ProductCard from "@/components/productCard.astro";
+import FinancingForm from "@/components/islands/FinancingForm";
+
 import { Icon } from "astro-icon/components";
+import {
+  getAllProductsSlugs,
+  getProductInfo,
+  getRelatedProducts,
+} from "../../lib/wp";
 
-// import { Icon } from "astro-icon/components"; // Asegúrate de tener astro-icon instalado
-
-// --- Data Fetching ---
-// Genera una página estática para cada producto en la colección "productos".
 export async function getStaticPaths() {
-  const productos = await getCollection("productos");
-  return productos.map((producto) => ({
-    params: { slug: producto.slug },
-    props: { producto },
-  }));
+  const slugs = await getAllProductsSlugs();
+  return slugs.map((slug) => ({ params: { slug } }));
 }
 
-// --- Props y Desestructuración de Datos ---
-const { producto } = Astro.props;
-const { data } = producto;
-// Extraemos las propiedades del producto, incluyendo un array para la galería.
 const {
-  title,
-  precio,
-  marca,
+  titulo,
+  categoria,
   modelo,
+  marca,
+  precio,
+  precioOferta,
   imagen,
-  descripcion,
-  especificaciones = [],
   galeria = [],
-} = data;
+  especificaciones = [],
+} = await getProductInfo(Astro.params.slug);
 
 const { slug } = Astro.params;
 
-// Formateador de moneda para el precio
-// --- Lógica de Formateo de Precio ---
-// Se convierte el precio a tipo numérico para evitar errores.
 const numericPrice = Number(precio);
+const numericOferta = Number(precioOferta);
 
-// Se formatea el precio solo si es un número válido.
-// De lo contrario, se muestra un mensaje predeterminado.
 const formattedPrice = !isNaN(numericPrice)
   ? new Intl.NumberFormat("es-DO", {
       style: "currency",
       currency: "DOP",
     }).format(numericPrice)
   : "Precio no disponible";
+
+const formattedOferta = !isNaN(numericOferta)
+  ? new Intl.NumberFormat("es-DO", {
+      style: "currency",
+      currency: "DOP",
+    }).format(numericOferta)
+  : "Precio no disponible";
+
+const relateds = await getRelatedProducts(categoria, slug);
 ---
 
-<ProductoLayout>
-  <section class="text-gray-800 py-6 bg-neutral-950">
-    <!-- Header (Ejemplo de un encabezado simple) -->
-
-    <main class="container mx-auto px-4 sm:px-6 lg:px-8 py-12 max-w-7xl">
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-        <!-- Columna de la Galería de Imágenes -->
-        <div class="flex flex-col gap-4">
-          <!-- Imagen Principal -->
-          <div
-            class="aspect-w-16 aspect-h-10 w-full overflow-hidden rounded-lg shadow-lg bg-slate-600/40 flex justify-center items-center"
-          >
-            <img
-              id="mainImage"
-              src={`/images/${imagen}`}
-              alt={`Vista principal de la motocicleta ${title}`}
-              class="w-96 h-96 object-contain transition-transform duration-300 ease-in-out hover:scale-105"
-            />
-          </div>
-          <!-- Galería de Miniaturas -->
-          <div class="flex gap-3 justify-center items-center">
-            {
-              galeria.map((img, i) => (
-                <div class="bg-slate-600/40 rounded-md overflow-hidden">
-                  <img
-                    src={`/images/${img}`}
-                    alt={`Galería de ${title} - imagen ${i}`}
-                    class="thumbnail cursor-pointer w-80 h-25 object-contain rounded-md border-2 border-transparent hover:border-red-500 transition-all duration-200 py-2"
-                    data-image-src={`/images/${img}`}
-                  />
-                </div>
-              ))
-            }
-          </div>
-        </div>
-
-        <!-- Columna de Información del Producto -->
-        <div class="flex flex-col">
-          <!-- Marca y Modelo -->
-          <div class="mb-2">
-            <span
-              class="text-lg font-semibold text-red-600 uppercase border-2 rounded-full border-red-500 px-4 py-1"
-              >{marca}</span
-            >
-            <span class="text-lg text-gray-500"> Modelo: {modelo}</span>
-          </div>
-          <!-- Título del Producto -->
-          <div class="w-full flex items-center justify-between">
-            <h1
-              class="text-3xl md:text-4xl font-extrabold text-slate-200 tracking-wider"
-            >
-              {title}
-            </h1>
-            <a
-              href={`/producto/${slug}/financiamiento`}
-              class="bg-green-700 hover:bg-green-800 text-white text-sm font-bold py-2 px-4 rounded-lg shadow-lg transition-transform duration-200 ease-in-out hover:scale-102 focus:outline-none focus:ring-4 focus:ring-green-300 flex items-center justify-center gap-3"
-              >Calcular Financiamiento</a
-            >
-          </div>
-          <div class="flex text-slate-200 w-full justify-center gap-2 py-4">
-            <div
-              class="flex text-xl text-slate-200 flex items-center gap-2 w-full justify-center border-2 border-gray-500 py-2 rounded-lg bg-slate-600/40"
-            >
-              <Icon name="credit-card" size="25" />
-              <span class="text-sm">Garantía de 2 años</span>
-            </div>
-            <div
-              class="flex text-xl text-slate-200 flex items-center gap-2 w-full justify-center border-2 border-gray-500 py-2 rounded-lg bg-slate-600/40"
-            >
-              <Icon name="shield" size="25" />
-              <span class="text-sm">Financiamiento disponible</span>
-            </div>
-          </div>
-
-          <!-- Precio -->
-          <div
-            class="mb-4 border-2 border-gray-500 rounded-lg py-4 px-2 bg-slate-600/40"
-          >
-            <p class="text-2xl font-semibold text-slate-200">
-              {formattedPrice}
-            </p>
-            <span class="text-lg text-slate-200">Precio de contado</span>
-          </div>
-
-          <!-- Descripción -->
-          <!-- <div class="prose prose-lg text-gray-600 mb-8">
-            <p>{descripcion}</p>
-          </div> -->
-
-          <!-- Especificaciones Clave -->
-          <div
-            class="border-2 border-gray-500 py-6 px-2 rounded-lg mb-6 bg-slate-600/40"
-          >
-            <h3
-              class="text-xl font-semibold text-gray-200 mb-4 border-b-2 border-gray-500 pb-2"
-            >
-              Especificaciones
-            </h3>
-            <ul class="space-y-3 text-gray-200">
-              {
-                especificaciones &&
-                  especificaciones.map((spec) => {
-                    // Obtiene la clave (ej. 'motor') y el valor (ej. '125 cc') del objeto
-                    const key = Object.keys(spec)[0]; // Esto te da 'motor', 'potencia', etc.
-                    const value = spec[key]; // Esto te da '125 cc', '11.5HP', etc.
-
-                    return (
-                      <li class="flex w-full justify-between items-center border-b-2 border-gray-400">
-                        <strong class="capitalize font-semibold text-sm">
-                          {key}:
-                        </strong>{" "}
-                        <span class="text-xl">{value}</span>
-                      </li>
-                    );
-                  })
-              }
-            </ul>
-          </div>
-
-          <!-- Botón de Acción (CTA) -->
-          <div class="mt-auto">
-            <a
-              href="#"
-              class="w-full bg-green-700 hover:bg-green-800 text-white text-lg font-bold py-4 px-6 rounded-lg shadow-lg transition-transform duration-200 ease-in-out hover:scale-102 focus:outline-none focus:ring-4 focus:ring-green-300 flex items-center justify-center gap-3"
-            >
-              <Icon name="whatsapp" size="25" />
-              Contactar por WhatsApp
-            </a>
-            <div class="flex gap-2 justify-center items-center w-full py-4">
-              <a
-                href="#"
-                class="text-lg text-slate-200 flex items-center gap-2 w-full justify-center border-2 border-gray-500 py-2 rounded-lg bg-slate-600/40 transition-transform duration-200 ease-in-out hover:scale-102"
-                ><Icon name="phone" size="25" /> Llamar</a
-              >
-              <a
-                href="#"
-                class="text-lg text-slate-200 flex items-center gap-2 w-full justify-center border-2 border-gray-500 py-2 rounded-lg bg-slate-600/40 transition-transform duration-200 ease-in-out hover:scale-102"
-                ><Icon name="share" size="25" /> Compartir<a></a>
-              </a>
-            </div>
-
-            <p class="text-center text-sm text-gray-500 mt-3">
-              Un asesor le atenderá de inmediato.
-            </p>
-          </div>
+<ProductoLayout titulo={titulo} imagen={imagen}>
+  <main class="bg-white text-dark pt-12">
+    <section
+      class="max-w-7xl mx-auto px-4 py-12 grid grid-cols-1 lg:grid-cols-2 gap-2"
+    >
+      <div class="flex flex-col md:flex-row gap-4 w-full">
+        <img
+          id="mainImage"
+          src={imagen}
+          alt={titulo}
+          class="rounded-xl shadow-lg w-full lg:w-96 h-96 object-contain"
+        />
+        <div class="flex md:flex-col flex-wrap gap-3 justify-center">
+          {
+            galeria.map((img, i) => (
+              <img
+                src={img}
+                alt={`Galería ${i}`}
+                data-image-src={img}
+                class="thumbnail w-24 h-24 object-contain rounded-md border-2 border-transparent hover:border-main cursor-pointer"
+              />
+            ))
+          }
         </div>
       </div>
-    </main>
+
+      <div class="flex flex-col justify-between py-4">
+        <span
+          class="rounded-full text-sm font-semibold py-1 px-2 bg-main text-white w-fit"
+          >2025</span
+        >
+        <div>
+          <h1 class="text-4xl text-main font-bold capitalize">{titulo}</h1>
+        </div>
+
+        <div class="space-y-2">
+          {
+            precioOferta ? (
+              <>
+                <p class="line-through text-gray-500">{formattedPrice}</p>
+                <p class="text-3xl font-bold text-main">{formattedOferta}</p>
+                <span class="text-sm text-main bg-main/10 px-2 py-1 rounded-full">
+                  Ahorra {Math.round(((precio - precioOferta) / precio) * 100)}%
+                </span>
+              </>
+            ) : (
+              <p class="text-3xl font-bold text-dark">{formattedPrice}</p>
+            )
+          }
+        </div>
+
+        <div class="flex gap-4">
+          <div class="flex items-center gap-2 text-main font-semibold">
+            <Icon name="credit-card" size="20" /> Financiamiento disponible
+          </div>
+          <div class="flex items-center gap-2 text-main font-semibold">
+            <Icon name="safe" size="20" /> Garantía de 2 años
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <a
+            href="#"
+            class="bg-green-700 hover:bg-green-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2"
+          >
+            <Icon name="whatsapp" size="20" /> Contactar por WhatsApp
+          </a>
+          <a
+            href="#"
+            class="bg-main/10 hover:bg-main/30 text-dark py-3 px-4 rounded-lg flex items-center justify-center gap-2"
+          >
+            <Icon name="phone" size="20" /> Llamar
+          </a>
+          <button
+            id="shareBtn"
+            class="bg-main/10 hover:bg-main/30 text-dark py-3 px-4 rounded-lg flex items-center justify-center gap-2 col-span-full cursor-pointer"
+          >
+            <Icon name="share" size="20" /> Compartir
+            <span id="tooltip" class="tooltip">¡Enlace copiado!</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="max-w-7xl mx-auto px-4 pb-12">
+      <h2 class="text-2xl font-bold text-center mb-6">Especificaciones</h2>
+      <div
+        class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4"
+      >
+        {
+          especificaciones.map(([key, value]) => (
+            <div class="bg-[#2d2d2d] text-white rounded-xl p-4 shadow">
+              <p class="text-sm text-acent uppercase">{key}</p>
+              <p class="text-base font-semibold capitalize">{value}</p>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <section class="bg-main/10 py-12">
+      <div class="max-w-4xl mx-auto px-4">
+        {
+          precioOferta ? (
+            <FinancingForm client:load price={precioOferta} />
+          ) : (
+            <FinancingForm client:load price={precio} />
+          )
+        }
+      </div>
+    </section>
+  </main>
+
+  <section
+    class="max-w-7xl flex flex-col items-center justify-center w-full mx-auto py-4"
+  >
+    <h3 class="text-2xl font-bold text-center mb-6">Productos relacionados</h3>
+    <ul class="flex flex-col md:flex-row gap-4 justify-center">
+      {
+        relateds.map((related) => (
+          <ProductCard
+            titulo={related.titulo}
+            slug={related.slug}
+            precio={related.precio}
+            precioOferta={related.precioOferta}
+            marca={related.marca}
+            modelo={related.modelo}
+            imagen={related.imagen}
+          />
+        ))
+      }
+    </ul>
   </section>
 </ProductoLayout>
 
 <style>
-  /* Estilo para la miniatura activa en la galería */
-  .thumbnail-active {
-    border-color: #1e40af; /* Un azul intenso para destacar */
-    box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.3);
+  .tooltip {
+    position: absolute;
+    background-color: #000;
+    color: #fff;
+    padding: 6px 10px;
+    font-size: 12px;
+    border-radius: 6px;
+    top: 110%;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s;
+  }
+
+  .tooltip.show {
+    opacity: 1;
   }
 </style>
 
 <script is:inline>
-  // --- Lógica para la Galería de Imágenes ---
+  const button = document.getElementById("shareBtn");
+  const tooltip = document.getElementById("tooltip");
+
+  button?.addEventListener("click", async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: document.title,
+          url: window.location.href,
+        });
+        return;
+      } catch (_) {}
+    }
+
+    try {
+      await navigator.clipboard.writeText(window.location.href);
+      tooltip.classList.add("show");
+      setTimeout(() => tooltip.classList.remove("show"), 2000);
+    } catch (err) {
+      console.error("Error al copiar", err);
+    }
+  });
+
   document.addEventListener("DOMContentLoaded", () => {
     const mainImage = document.getElementById("mainImage");
     const thumbnails = document.querySelectorAll(".thumbnail");
 
-    // Función para actualizar la imagen activa
-    const setActiveThumbnail = (thumb) => {
-      // Quita la clase activa de todas las miniaturas
-      thumbnails.forEach((t) => t.classList.remove("thumbnail-active"));
-      // Añade la clase activa a la miniatura seleccionada
-      thumb.classList.add("thumbnail-active");
-    };
+    thumbnails.forEach((thumb) => {
+      thumb.addEventListener("click", () => {
+        const newSrc = thumb.dataset.imageSrc;
+        if (mainImage && newSrc) mainImage.src = newSrc;
 
-    thumbnails.forEach((thumbnail) => {
-      thumbnail.addEventListener("click", () => {
-        // Obtiene la URL de la imagen del atributo data
-        const newImageSrc = thumbnail.dataset.imageSrc;
-
-        // Cambia la fuente de la imagen principal
-        if (mainImage && newImageSrc) {
-          mainImage.src = newImageSrc;
-        }
-
-        // Actualiza la miniatura activa
-        setActiveThumbnail(thumbnail);
+        thumbnails.forEach((t) => t.classList.remove("thumbnail-active"));
+        thumb.classList.add("thumbnail-active");
       });
     });
 
-    // Inicializa la primera miniatura como activa
-    if (thumbnails.length > 0) {
-      setActiveThumbnail(thumbnails[0]);
-    }
+    if (thumbnails.length > 0) thumbnails[0].classList.add("thumbnail-active");
   });
 </script>
+
+<style>
+  .thumbnail-active {
+    border-color: var(--color-main, #0ea5e9);
+    box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.4);
+  }
+</style>

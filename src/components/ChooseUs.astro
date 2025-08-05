@@ -1,0 +1,97 @@
+---
+import { Icon } from "astro-icon/components";
+---
+
+<section class="bg-white py-8 px-6">
+  <div class="max-w-4xl mx-auto">
+    <!-- Imagen destacada -->
+    <div class="mb-6">
+      <img
+        src="/images/group.png"
+        alt="Grupo de motocicletas"
+        class="rounded-xl w-full object-contain max-h-[300px]"
+      />
+    </div>
+
+    <!-- Informaciones relevantes -->
+    <div
+      class="flex flex-col md:flex-row gap-4 justify-between items-center text-left"
+    >
+      <div class="md:w-1/2 md:px-12 px-4">
+        <small class="text-lg text-dark font-bold">Por qué elegirnos</small>
+        <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">
+          Elegir bien también se siente bien
+        </h2>
+        <p class="text-sm text-dark/80">
+          En Luis Manuel Abreu Motors no solo vendemos motocicletas, ofrecemos
+          una experiencia completa pensada para que disfrutes el camino desde el
+          primer día. Con planes de financiamiento flexibles, garantía en cada
+          modelo y un equipo que te acompaña antes, durante y después de tu
+          compra, somos la opción segura para quienes buscan confianza, calidad
+          y respaldo real.
+        </p>
+      </div>
+      <div class="md:w-1/2 flex flex-col gap-12 text-dark">
+        <div class="flex items-center justify-between gap-2">
+          <div class="bg-acent/20 p-4 rounded-full">
+            <Icon
+              name="safe"
+              size={50}
+              class="text-acent font-bold drop-shadow-sm drop-shadow-acent"
+            />
+          </div>
+
+          <div class="">
+            <h3 class="text-xl font-bold mb-2 text-dark">
+              Garantía en cada compra
+            </h3>
+            <p class="text-dark/80">
+              Todos nuestros modelos están respaldados por garantía oficial y
+              servicio técnico.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between gap-2">
+          <div class="bg-acent/20 p-4 rounded-full">
+            <Icon
+              name="calc"
+              size={50}
+              class="text-acent font-bold drop-shadow-sm drop-shadow-acent"
+            />
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-dark">
+              Financiamiento personalizado
+            </h3>
+            <p class="text-dark/80">
+              Planes de pago adaptados a tu presupuesto, sin inicial en la
+              mayoría de los casos.
+            </p>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between gap-2">
+          <div class="bg-acent/20 p-4 rounded-full">
+            <Icon
+              name="support"
+              size={50}
+              class="text-acent font-bold drop-shadow-sm drop-shadow-acent"
+            />
+          </div>
+
+          <div>
+            <h3 class="text-xl font-bold mb-2 text-dark">
+              Soporte real y rápido
+            </h3>
+            <p class="text-dark/80">
+              Te acompañamos después de la compra con asistencia y repuestos
+              disponibles.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

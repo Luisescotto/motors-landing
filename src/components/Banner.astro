@@ -2,13 +2,16 @@
 import { Image } from "astro:assets";
 import banner from "../assets/images/banner.png";
 import { Icon } from "astro-icon/components";
+import { getBannerVideo } from "../lib/wp";
+
+const { url, portada } = await getBannerVideo("banner-video");
 ---
 
 <!-- src/components/BannerVideo.astro -->
 <section class="relative w-full h-[60vh] md:h-[75vh] bg-dark overflow-hidden">
   <!-- Imagen de fondo -->
   <Image
-    src={banner}
+    src={portada}
     width="1920"
     height="1080"
     alt="Banner promocional"
@@ -22,9 +25,13 @@ import { Icon } from "astro-icon/components";
   >
     <button
       id="play-button"
-      class="bg-slate-200/60 hover:bg-slate-200 text-red-600 font-bold rounded-full p-4 shadow-xl transition-transform transform hover:scale-110"
+      class="bg-white/60 hover:bg-slate-200 text-main font-bold rounded-full p-4 shadow-xl transition-transform transform hover:scale-110 cursor-pointer"
     >
-      <Icon name="play" size="80" class="" />
+      <Icon
+        name="play"
+        size="80"
+        class="text-main drop-shadow-md drop-shadow-main"
+      />
     </button>
   </div>
 
@@ -47,19 +54,18 @@ import { Icon } from "astro-icon/components";
   </div>
 </section>
 
-<script is:inline>
+<script is:inline define:vars={{ url }}>
   document.addEventListener("DOMContentLoaded", () => {
     const button = document.getElementById("play-button");
     const videoContainer = document.getElementById("video-container");
     const buttonContainer = document.getElementById("play-button-container");
     const iframe = document.getElementById("video-frame");
-    const videoId = "9Yvqn6vWxcU"; // Reemplaza por tu video
 
     if (button) {
       button.addEventListener("click", () => {
         buttonContainer.style.display = "none";
         videoContainer.classList.remove("hidden");
-        iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1&rel=0`;
+        iframe.src = `${url}?autoplay=1&rel=0`;
       });
     }
   });
