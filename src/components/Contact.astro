@@ -1,7 +1,6 @@
 ---
 import { Icon } from "astro-icon/components";
 import { getMap } from "../lib/wp";
-const { mapa } = await getMap();
 import { getAllBranches } from "../lib/wp";
 const branches = await getAllBranches();
 ---
@@ -34,13 +33,14 @@ const branches = await getAllBranches();
 
           <p class="text-sm text-gray-700 text-center">{branch.direccion}</p>
 
-          <button class="flex items-center gap-2 bg-acent text-white px-4 py-2 rounded-full font-medium shadow-md hover:bg-main-dark transition">
+          <a
+            href={`tel:${branch.telefono}`}
+            class="flex items-center gap-2 bg-acent text-white px-4 py-2 rounded-full font-medium shadow-md hover:bg-main-dark transition"
+          >
             <Icon name="phone" size={20} /> {branch.telefono}
-          </button>
+          </a>
         </div>
       ))
     }
   </div>
-  <!--MAP IMAGE -->
-  <!-- <div class="space-y-6 w-full max-w-4xl h-full pb-6 px-4" set:html={mapa} /> -->
 </section>

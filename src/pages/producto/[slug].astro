@@ -1,5 +1,6 @@
 ---
-// src/pages/productos/[slug].astro
+import { Image } from "astro:assets";
+
 import ProductoLayout from "@/layouts/ProductoLayout.astro";
 import ProductCard from "@/components/productCard.astro";
 import FinancingForm from "@/components/islands/FinancingForm";
@@ -50,6 +51,12 @@ const formattedOferta = !isNaN(numericOferta)
   : "Precio no disponible";
 
 const relateds = await getRelatedProducts(categoria, slug);
+
+const message = `Hola, me interesa el modelo ${titulo}(${ano}). ¿Está disponible?`;
+const phoneNumber = "18092420183";
+
+const encodedMessage = encodeURIComponent(message);
+const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
 ---
 
 <ProductoLayout
@@ -61,7 +68,7 @@ const relateds = await getRelatedProducts(categoria, slug);
   <main class="bg-white text-dark pt-12 text-left">
     <div class="pt-8 max-w-7xl mx-auto px-4 flex flex-col items-center">
       <div class="text-center">
-        <h1 class="text-4xl text-main font-bold capitalize">
+        <h1 class="text-2xl md:text-4xl text-main font-bold capitalize">
           {`${titulo} (${ano})`}
         </h1>
       </div>
@@ -72,26 +79,33 @@ const relateds = await getRelatedProducts(categoria, slug);
       <div
         class="flex flex-col md:flex-row gap-4 w-full justify-center items-center"
       >
-        <img
-          id="mainImage"
-          src={imagen}
-          alt={titulo}
-          class="rounded-xl shadow-lg w-full lg:w-96 h-96 object-contain"
-        />
-        <div
-          class="flex md:flex-col flex-wrap gap-3 justify-center md:items-center"
-        >
-          {
-            galeria.map((img, i) => (
-              <img
-                src={img}
-                alt={`Galería ${i}`}
-                data-image-src={img}
-                class="thumbnail w-24 h-24 object-contain rounded-md border-2 border-transparent hover:border-main cursor-pointer"
-              />
-            ))
-          }
-        </div>
+        {
+          imagen && (
+            <img
+              id="mainImage"
+              src={imagen}
+              alt={titulo}
+              class="rounded-xl shadow-lg w-full lg:w-96 h-96 object-contain"
+            />
+          )
+        }
+
+        {
+          galeria?.filter((img) => img && img.trim() !== "").length > 0 && (
+            <div class="flex md:flex-col flex-wrap gap-3 justify-center md:items-center">
+              {galeria
+                .filter((img) => img && img.trim() !== "")
+                .map((img, i) => (
+                  <img
+                    src={img}
+                    alt={`Galería ${i}`}
+                    data-image-src={img}
+                    class="thumbnail w-24 h-24 object-contain rounded-md border-2 border-transparent hover:border-main cursor-pointer"
+                  />
+                ))}
+            </div>
+          )
+        }
       </div>
 
       <div class="py-4">
@@ -127,7 +141,8 @@ const relateds = await getRelatedProducts(categoria, slug);
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <a
-            href="#"
+            href={whatsappURL}
+            target="_blank"
             class="bg-green-700 hover:bg-green-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2"
           >
             <Icon name="whatsapp" size="20" /> Contactar por WhatsApp
@@ -136,7 +151,7 @@ const relateds = await getRelatedProducts(categoria, slug);
             href="/#contacto"
             class="bg-main/10 hover:bg-main/30 text-dark py-3 px-4 rounded-lg flex items-center justify-center gap-2"
           >
-            <Icon name="phone" size="20" /> Llamar
+            <Icon name="address" size="20" /> Buscar sucursal
           </a>
           <button
             id="shareBtn"

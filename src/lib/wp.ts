@@ -122,6 +122,39 @@ export const getLatestProducts = async({perPage = 10}: {perPage?: number} = {}) 
 
 }
 
+export const getAllProducts = async ({perPage = 10}: {perPage?: number} = {}) =>{
+	let allProducts = [];
+	let currentPage = 1;
+	let totalPages = 1;
+
+	try {
+		while (currentPage <= totalPages) {
+			const response = await fetch(`${apiURL}?per_page=${perPage}&page=${currentPage}&_embed`);
+
+			if (!response.ok) {
+				throw new Error(`Error al obtener productos (status ${response.status}): ${response.statusText}`);
+			}
+
+			// Leer cabecera total de páginas (WordPress la envía siempre)
+			if (currentPage === 1) {
+				const totalPagesHeader = response.headers.get('X-WP-TotalPages');
+				if (totalPagesHeader) {
+					totalPages = parseInt(totalPagesHeader, 10);
+				}
+			}
+
+			const pageProducts = await response.json();
+			allProducts = allProducts.concat(pageProducts);
+			currentPage++;
+		}
+	} catch (error) {
+		console.error('Error al cargar productos:', error);
+	}
+
+	return allProducts;
+
+}
+
 export const getRelatedProducts = async (categoria: string, currentSlug: string) => {
   const response = await fetch(`${apiURL}/products?categoria=${categoria}&per_page=10`);
 

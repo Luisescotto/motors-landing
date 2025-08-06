@@ -6,10 +6,16 @@ import "@fontsource-variable/roboto";
 
 import { getBussinesInfo } from "../lib/wp";
 
-const { logo, nombre, keywords, direccion_web } = await getBussinesInfo();
+const {
+  logo,
+  nombre,
+  keywords,
+  direccion_web,
+  email_principal,
+  email_secundariio,
+} = await getBussinesInfo();
 
 const { titulo, imagen, descripcion, categoria } = Astro.props;
-console.log(titulo);
 ---
 
 <!doctype html>
@@ -24,15 +30,20 @@ console.log(titulo);
     <meta name="title" content={titulo ? `${titulo} - ${nombre}` : nombre} />
     <meta
       name="description"
-      content=`${descripcion} Ven por la tuya a ${nombre}`
+      content={descripcion
+        ? `${descripcion} Ven por la tuya a ${nombre}`
+        : `Catalogo de motores y pasolas - ${nombre}`}
     />
-    <meta name="keywords" content=`${keywords}, ${titulo}, ${categoria}` />
+    <meta
+      name="keywords"
+      content={titulo ? `${keywords}, ${titulo}, ${categoria} ` : `${keywords}`}
+    />
 
     <!-- Open Graph / Facebook -->
     <meta property="og:title" content={`${titulo} - ${nombre}`} />
     <meta
       property="og:description"
-      content=`${descripcion} Ven por la tuya a ${nombre}`
+      content=`${descripcion} Ven a comprar tu ${titulo} a ${nombre}`
     />
     <meta property="og:image" content={imagen} />
     <meta property="og:url" content={direccion_web} />
@@ -91,7 +102,10 @@ console.log(titulo);
 
     <slot />
 
-    <Footer />
+    <Footer
+      email_principal={email_principal}
+      email_secundario={email_secundariio}
+    />
   </body>
 </html>
 <style>

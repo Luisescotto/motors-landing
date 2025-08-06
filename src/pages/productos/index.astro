@@ -2,19 +2,15 @@
 import Layout from "@/layouts/ProductoLayout.astro";
 import ProductCard from "@/components/productCard.astro";
 
-import { getLatestProducts } from "../../lib/wp";
+import { getLatestProducts, getAllProducts } from "../../lib/wp";
 
+// const products = await getLatestProducts({ perPage: 100 });
 const products = await getLatestProducts({ perPage: 100 });
+
 const marcas = [...new Set(products.map((p) => p.marca).filter(Boolean))];
 ---
 
-<!-- Filtros -->
 <Layout>
-  <!-- Lista de productos -->
-  <!-- <div id="productos">
-    {products.map((product) => <ProductCard {...product} />)}
-  </div> -->
-
   <section class="bg-white py-12 px-4 w-full">
     <main class="w-full mx-auto max-w-7xl text-center px-4">
       <h1 class="text-dark text-3xl font-bold my-6">
@@ -55,7 +51,6 @@ const marcas = [...new Set(products.map((p) => p.marca).filter(Boolean))];
   </section>
 </Layout>
 
-<!-- Script de filtrado -->
 <script is:inline>
   const select = document.getElementById("marca");
   const cards = [...document.querySelectorAll("#productos > *")];

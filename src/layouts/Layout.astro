@@ -13,8 +13,15 @@ import Footer from "@/components/Footer.astro";
 
 import { getBussinesInfo } from "../lib/wp";
 
-const { logo, nombre, descripcion, keywords, direccion_web } =
-  await getBussinesInfo();
+const {
+  logo,
+  nombre,
+  descripcion,
+  keywords,
+  direccion_web,
+  email_principal,
+  email_secundariio,
+} = await getBussinesInfo();
 ---
 
 <!doctype html>
@@ -95,7 +102,10 @@ const { logo, nombre, descripcion, keywords, direccion_web } =
     <Banner />
     <!-- <Offers /> -->
     <Contact />
-    <Footer />
+    <Footer
+      email_principal={email_principal}
+      email_secundario={email_secundariio}
+    />
 
     <slot />
   </body>
