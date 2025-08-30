@@ -18,27 +18,52 @@ const branches = await getAllBranches();
   >
     {
       branches.map((branch) => (
-        <div class="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center gap-4 w-full max-w-sm transition-transform hover:scale-[1.02]">
-          <div class="bg-acent/10 p-3 rounded-full">
-            <Icon
-              name="address"
-              class="text-acent drop-shadow-acent drop-shadow-sm"
-              size={40}
+        // <div class="bg-white rounded-2xl shadow-xl p-6 flex flex-col items-center gap-4 w-full max-w-sm transition-transform hover:scale-[1.02]">
+        //   <div class="bg-acent/10 p-3 rounded-full">
+        //     <Icon
+        //       name="address"
+        //       class="text-acent drop-shadow-acent drop-shadow-sm"
+        //       size={40}
+        //     />
+        //   </div>
+
+        //   <h3 class="text-xl font-semibold text-dark text-center">
+        //     {branch.titulo}
+        //   </h3>
+
+        //   <p class="text-sm text-gray-700 text-center">{branch.direccion}</p>
+
+        //   <a
+        //     href={`tel:${branch.telefono}`}
+        //     class="flex items-center gap-2 bg-acent text-white px-4 py-2 rounded-full font-medium shadow-md hover:bg-main-dark transition"
+        //   >
+        //     <Icon name="phone" size={20} /> {branch.telefono}
+        //   </a>
+        // </div>
+
+        <div class="bg-white rounded-2xl overflow-hidden shadow-xl flex flex-col items-center gap-4 w-full max-w-sm transition-transform">
+          <div class="h-40 w-full overflow-hidden">
+            <img
+              src={branch.imagen}
+              alt={branch.name}
+              class="w-full h-full object-cover hover:scale-110 transition-transform duration-300"
             />
           </div>
 
-          <h3 class="text-xl font-semibold text-dark text-center">
-            {branch.titulo}
-          </h3>
+          <div class="px-4 py-2 bg-white text-dark">
+            <div class="flex items-center">
+              <Icon name="address" class="text-acent" size={25} />
+              <h3 class="text-xl font-bold">{branch.titulo}</h3>
+            </div>
 
-          <p class="text-sm text-gray-700 text-center">{branch.direccion}</p>
-
-          <a
-            href={`tel:${branch.telefono}`}
-            class="flex items-center gap-2 bg-acent text-white px-4 py-2 rounded-full font-medium shadow-md hover:bg-main-dark transition"
-          >
-            <Icon name="phone" size={20} /> {branch.telefono}
-          </a>
+            <p class="text-sm text-dark/80 py-2">{branch.direccion}</p>
+            <a
+              href={`tel:${branch.telefono}`}
+              class="flex items-center justify-center gap-2 bg-acent text-white px-4 py-2 rounded-full font-medium shadow-md"
+            >
+              <Icon name="phone" size={20} /> {branch.telefono}{" "}
+            </a>
+          </div>
         </div>
       ))
     }

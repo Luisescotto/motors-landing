@@ -1,0 +1,75 @@
+---
+import { Icon } from "astro-icon/components";
+import type { GetStaticPaths } from "astro";
+
+import Layout from "@/layouts/ProductoLayout.astro";
+import ProductCard from "@/components/productCard.astro";
+import { getAllProducts } from "@/lib/wp";
+
+export const getStaticPaths = (async ({ paginate }) => {
+  const products = await getAllProducts();
+
+  // Todas las marcas únicas
+  const marcas = [...new Set(products.map((p) => p.marca).filter(Boolean))];
+
+  // Para cada marca, generamos paginación
+  return marcas.flatMap((marca) => {
+    const filtrados = products.filter((p) => p.marca === marca);
+    return paginate(filtrados, {
+      params: { marca },
+      pageSize: 12,
+    });
+  });
+}) satisfies GetStaticPaths;
+
+const { page } = Astro.props;
+const { marca } = Astro.params;
+---
+
+<Layout>
+  <section class="bg-white py-12 px-4 w-full">
+    <main class="w-full mx-auto max-w-7xl text-center px-4">
+      <h1 class="text-dark text-3xl font-bold py-4 mt-8">
+        Modelos {marca}
+      </h1>
+
+      <div class="w-full text-start pb-6">
+        <a
+          href="/productos/1"
+          class="self-start text-start underline flex items-center text-lg text-dark"
+          ><Icon name="arrowLeft" size={25} /> Regresar a todos los modelos</a
+        >
+      </div>
+
+      <ul
+        class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center"
+      >
+        {page.data.map((product) => <ProductCard {...product} />)}
+      </ul>
+
+      <nav class="flex justify-center items-center gap-4 mt-8">
+        {
+          page.url.prev && (
+            <a
+              href={page.url.prev}
+              class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-dark"
+            >
+              ← Anterior
+            </a>
+          )
+        }
+        <span>Página {page.currentPage} de {page.lastPage}</span>
+        {
+          page.url.next && (
+            <a
+              href={page.url.next}
+              class="px-4 py-2 rounded bg-gray-200 hover:bg-gray-300 text-dark"
+            >
+              Siguiente →
+            </a>
+          )
+        }
+      </nav>
+    </main>
+  </section>
+</Layout>

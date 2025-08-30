@@ -1,12 +1,7 @@
 ---
-import { getCollection } from "astro:content";
 import ProductCard from "./productCard.astro";
 import { getLatestProducts } from "../lib/wp";
 
-const productsToShow = 4;
-const productos = await getCollection("productos");
-
-const limitedProducts = productos.slice(0, productsToShow);
 const products = await getLatestProducts({ perPage: 4 });
 ---
 
@@ -42,7 +37,7 @@ const products = await getLatestProducts({ perPage: 4 });
     <div class="w-full text-center pt-12 pb-6">
       <a
         class="inline-block mt-6 px-12 py-3 bg-acent hover:bg-main-dark text-white font-semibold transition duration-300 w-fit shadow-lg shadow-acent/60"
-        href="/productos">Ver todos los modelos</a
+        href="/productos/1">Ver todos los modelos</a
       >
     </div>
   </div>

@@ -11,6 +11,7 @@ import {
   getProductInfo,
   getRelatedProducts,
 } from "../../lib/wp";
+import { formatPrice } from "@/lib/utils";
 
 export async function getStaticPaths() {
   const slugs = await getAllProductsSlugs();
@@ -26,6 +27,7 @@ const {
   marca,
   precio,
   precioOferta,
+  inicial,
   imagen,
   galeria = [],
   especificaciones = [],
@@ -36,19 +38,9 @@ const { slug } = Astro.params;
 const numericPrice = Number(precio);
 const numericOferta = Number(precioOferta);
 
-const formattedPrice = !isNaN(numericPrice)
-  ? new Intl.NumberFormat("es-DO", {
-      style: "currency",
-      currency: "DOP",
-    }).format(numericPrice)
-  : "Precio no disponible";
-
-const formattedOferta = !isNaN(numericOferta)
-  ? new Intl.NumberFormat("es-DO", {
-      style: "currency",
-      currency: "DOP",
-    }).format(numericOferta)
-  : "Precio no disponible";
+const formattedPrice = formatPrice(precio);
+const formattedOferta = formatPrice(precioOferta);
+const formattedInicial = formatPrice(inicial);
 
 const relateds = await getRelatedProducts(categoria, slug);
 
@@ -65,10 +57,13 @@ const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
   descripcion={descripcion}
   categoria={categoria}
 >
-  <main class="bg-white text-dark pt-12 text-left">
+  <main class="bg-white text-dark pt-12 text-left" data-pagefind-body>
     <div class="pt-8 max-w-7xl mx-auto px-4 flex flex-col items-center">
       <div class="text-center">
-        <h1 class="text-2xl md:text-4xl text-main font-bold capitalize">
+        <h1
+          class="text-2xl md:text-4xl text-main font-bold capitalize"
+          data-pagefind-index-attrs="title,year"
+        >
           {`${titulo} (${ano})`}
         </h1>
       </div>
@@ -109,18 +104,30 @@ const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
       </div>
 
       <div class="py-4">
-        <div
+        <p
           class="max-w-7xl mx-auto pb-6 text-left text-sm text-main/90 font-medium leading-6"
+          data-pagefind-ignore
         >
           {descripcion}
-        </div>
+        </p>
+
         <div class="space-y-2">
           {
             precioOferta ? (
               <>
-                <p class="line-through text-gray-500">{formattedPrice}</p>
-                <p class="text-3xl font-bold text-main">{formattedOferta}</p>
-                <span class="text-sm text-main bg-main/10 px-2 py-1 rounded-full">
+                <p class="line-through text-gray-500" data-pagefind-ignore>
+                  {formattedPrice}
+                </p>
+                <p
+                  class="text-3xl font-bold text-main"
+                  data-pagefind-index-attrs="offer"
+                >
+                  {formattedOferta}
+                </p>
+                <span
+                  class="text-sm text-main bg-main/10 px-2 py-1 rounded-full"
+                  data-pagefind-ignore
+                >
                   Ahorra {Math.round(((precio - precioOferta) / precio) * 100)}%
                 </span>
               </>
@@ -129,8 +136,14 @@ const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             )
           }
         </div>
+        <div>
+          <small>Inicial: {formattedInicial}</small>
+        </div>
 
-        <div class="flex flex-col md:flex-row gap-4 py-4">
+        <div
+          class="flex flex-col md:flex-row gap-4 py-4"
+          data-pagefind-ignore="all"
+        >
           <div class="flex items-center gap-2 text-main font-semibold">
             <Icon name="credit-card" size="20" /> Financiamiento disponible
           </div>
@@ -139,13 +152,16 @@ const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
           </div>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div
+          class="grid grid-cols-1 sm:grid-cols-2 gap-4"
+          data-pagefind-ignore="all"
+        >
           <a
             href={whatsappURL}
             target="_blank"
             class="bg-green-700 hover:bg-green-800 text-white py-3 px-4 rounded-lg flex items-center justify-center gap-2"
           >
-            <Icon name="whatsapp" size="20" /> Contactar por WhatsApp
+            <Icon name="whatsapp" size="20" /> Me interesa
           </a>
           <a
             href="/#contacto"
@@ -167,7 +183,10 @@ const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
             especificaciones.filter(
               ([_, value]) => value && value.trim() !== ""
             ).length > 0 && (
-              <div class="max-w-7xl mx-auto px-4 py-6">
+              <div
+                class="max-w-7xl mx-auto px-4 py-6"
+                data-pagefind-ignore="all"
+              >
                 <h2 class="text-2xl font-bold text-center mb-6">
                   Especificaciones
                 </h2>
@@ -191,26 +210,31 @@ const whatsappURL = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
       </div>
     </section>
 
-    <section class="bg-main/10 py-12">
-      <div class="max-w-4xl mx-auto px-4">
+    <section class="bg-main/10 py-12" data-pagefind-ignore="all">
+      <div class="max-w-4xl mx-auto px-4 text-center">
         {
           precioOferta ? (
-            <FinancingForm client:load price={precioOferta} />
+            <FinancingForm client:load price={precioOferta} inicial={inicial} />
           ) : (
-            <FinancingForm client:load price={precio} />
+            <FinancingForm client:load price={precio} inicial={inicial} />
           )
         }
+
+        <small class="text-sm text-dark text-center mt-4">
+          ¿Listo para dar el siguiente paso? Solicite más información
+          contactándonos.
+        </small>
       </div>
     </section>
   </main>
 
-  <section
-    class="max-w-7xl flex flex-col items-center justify-center w-full mx-auto py-4"
-  >
+  <section class="max-w-7xl mx-auto py-6 px-4" data-pagefind-ignore="all">
     <h3 class="text-2xl font-bold text-center mb-6">
       También te pueden interesar
     </h3>
-    <ul class="flex flex-col md:flex-row gap-4 justify-center">
+    <ul
+      class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 justify-center"
+    >
       {
         relateds.map((related) => (
           <ProductCard

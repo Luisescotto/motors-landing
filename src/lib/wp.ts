@@ -1,5 +1,8 @@
 const domain= import.meta.env.WP_DOMAIN
 const apiURL = `${domain}/wp-json/wp/v2`
+const acfFilter = "&_fields=acf&acf_format=standard"
+
+//https://motorslanding.webhostingfree.io/wp-json/wp/v2/products?per_page=100&marca=bajaj&categoria=pasola&_fields=id,slug,acf.marca,acf.categoria&_fields=acf&acf_format=standard
 
 
 export const getPageInfo = async (slug:string) => {
@@ -50,7 +53,7 @@ export const getLatestPost = async({perPage = 10}: {perPage?: number} = {}) =>{
 }
 
 export const getProductInfo = async(slug: string) =>{
-    const response = await fetch(`${apiURL}/products?slug=${slug}`);
+    const response = await fetch(`${apiURL}/products?slug=${slug}${acfFilter}`);
     if (!response.ok){
         throw new Error("Failed to fetch all products");
     }
@@ -66,13 +69,14 @@ export const getProductInfo = async(slug: string) =>{
         const marca = data.acf.marca;
         const precio = data.acf.precio;
         const precioOferta = data.acf.precio_oferta;
+        const inicial = data.acf.inicial_recomendado;
 
         const imagen = data.acf.imagen;
 
         const especificaciones = Object.entries(data.acf.especificaciones)
         const galeria = Object.values(data.acf.galeria)
 
-        return {titulo, slug, descripcion, ano, categoria, modelo, marca, precio, precioOferta,imagen, especificaciones,galeria}
+        return {titulo, slug, descripcion, ano, categoria, modelo, marca, precio, precioOferta, inicial, imagen, especificaciones,galeria}
 }
 
 
@@ -122,41 +126,43 @@ export const getLatestProducts = async({perPage = 10}: {perPage?: number} = {}) 
 
 }
 
-export const getAllProducts = async ({perPage = 10}: {perPage?: number} = {}) =>{
-	let allProducts = [];
-	let currentPage = 1;
-	let totalPages = 1;
+export const getAllProducts = async () => {
+  let allProducts: any[] = [];
+  let page = 1;
+  let fetched = [];
 
-	try {
-		while (currentPage <= totalPages) {
-			const response = await fetch(`${apiURL}?per_page=${perPage}&page=${currentPage}&_embed`);
+  do {
+    const response = await fetch(
+      `${apiURL}/products?per_page=100&page=${page}&_embed`
+    );
 
-			if (!response.ok) {
-				throw new Error(`Error al obtener productos (status ${response.status}): ${response.statusText}`);
-			}
+    if (!response.ok) {
+      throw new Error(`Failed to fetch products on page ${page}`);
+    }
 
-			// Leer cabecera total de páginas (WordPress la envía siempre)
-			if (currentPage === 1) {
-				const totalPagesHeader = response.headers.get('X-WP-TotalPages');
-				if (totalPagesHeader) {
-					totalPages = parseInt(totalPagesHeader, 10);
-				}
-			}
+    fetched = await response.json();
+    allProducts = [...allProducts, ...fetched];
+    page++;
+  } while (fetched.length === 100); // mientras haya más páginas
+  
 
-			const pageProducts = await response.json();
-			allProducts = allProducts.concat(pageProducts);
-			currentPage++;
-		}
-	} catch (error) {
-		console.error('Error al cargar productos:', error);
-	}
+  return allProducts.map((product) => {
+    const titulo = product.acf.titulo;
+    const { date, slug } = product;
+    const ano = product.acf.ano;
+    const modelo = product.acf.modelo;
+    const marca = product.acf.marca;
+    const precio = product.acf.precio;
+    const precioOferta = product.acf.precio_oferta;
+    const imagen = product.acf.imagen;
 
-	return allProducts;
+    return { titulo, date, slug, ano, modelo, marca, precio, precioOferta, imagen };
+  });
+};
 
-}
 
 export const getRelatedProducts = async (categoria: string, currentSlug: string) => {
-  const response = await fetch(`${apiURL}/products?categoria=${categoria}&per_page=10`);
+  const response = await fetch(`${apiURL}/products?categoria=${categoria}&per_page=4`);
 
   if (!response.ok) {
     throw new Error("Failed to fetch Related products");
@@ -303,7 +309,8 @@ export const getAllBranches = async()=>{
         const titulo = branch.acf.titulo;
         const direccion = branch.acf.direccion;
         const telefono = branch.acf.telefono;
-        return {titulo, direccion, telefono};
+        const imagen = branch.acf.imagen;
+        return {titulo, direccion, telefono, imagen};
     });
     return branches;
 }

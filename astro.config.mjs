@@ -9,12 +9,14 @@ import react from '@astrojs/react';
 
 import vercel from '@astrojs/vercel';
 
+import sitemap from '@astrojs/sitemap';
+
 // https://astro.build/config
 export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-
-  integrations: [icon(), react()],
+site: 'https://lmabreumotors.com',
+  integrations: [icon(), react(), sitemap()],
   adapter: vercel()
 });

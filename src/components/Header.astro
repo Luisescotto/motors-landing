@@ -1,4 +1,6 @@
 ---
+import { Icon } from "astro-icon/components";
+
 import Logo from "./Logo.astro";
 import Socials from "./Socials.astro";
 
@@ -12,8 +14,24 @@ const socials = await getAllSocials();
       <!-- Logo -->
       <Logo />
 
+      <div class="py-2 text-center flex justify-center items-center">
+        <!-- contenedor de Pagefind -->
+        <div id="search" class="pagefind-container"></div>
+      </div>
+
+      <script>
+        window.addEventListener("DOMContentLoaded", () => {
+          // @ts-ignore
+          new PagefindUI({
+            element: "#search",
+            showSubResults: true,
+            resetStyles: false,
+          });
+        });
+      </script>
+
       <!-- Menú de navegación (desktop) -->
-      <div class="hidden md:flex space-x-8">
+      <div class="hidden md:flex space-x-8 justify-center items-center">
         <a
           href="/#"
           class="text-dark hover:text-acent transition-colors duration-200 text-lg font-medium"
@@ -31,9 +49,9 @@ const socials = await getAllSocials();
         >
         <a
           href="/#contacto"
-          class="text-dark hover:text-acent transition-colors duration-200 text-lg font-medium"
-          >Contacto</a
-        >
+          class="text-white hover:scale-110 transition-transform duration-200 text-lg font-medium bg-acent rounded-4xl px-4 py-2 flex items-center"
+          >Contacto <Icon name="arrowRight" size={22} class="font-bold" />
+        </a>
       </div>
 
       <!-- Botón hamburguesa (móvil) -->

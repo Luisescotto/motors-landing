@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import "../../styles/global.css";
 
-export default function FinancingForm({ price }) {
-  const [down, setDown] = useState(0);
+export default function FinancingForm({ price, inicial }) {
+  const [down, setDown] = useState(inicial);
   const [months, setMonths] = useState(12);
 
   const cuotaMensual = () => {
@@ -25,7 +25,7 @@ export default function FinancingForm({ price }) {
 
   return (
     <>
-      <h2 className="text-xl font-semibold text-green-700 text-center">Modifica los datos de tu préstamo aquí</h2>
+      <h2 className="text-xl font-semibold text-green-700 text-center" data-pagefind-ignore>Modifica los datos de tu préstamo aquí</h2>
       
       <form className="py-4 px-6 mx-auto w-full space-y-6 flex flex-col md:flex-row justify-center gap-4 max-w-4xl">
 
@@ -35,7 +35,7 @@ export default function FinancingForm({ price }) {
             Monto inicial
           </label>
           <div className="flex items-center gap-3">
-            <span className="text-sm text-gray-400">$</span>
+            <span className="text-sm text-dark">RD$</span>
             <input
               id="monto-inicial"
               type="number"
